@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Minesweeper AI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  
+  <div id="game-over" class="message-box-hidden">
+    <h2>💥 Game Over!</h2>
+    <p>Du bist auf eine Mine getreten.</p>
+    <button id="game-over-btn" onclick="init()">Neu starten</button>
+  </div>
+
+  <div class="game-container">
+    <div class="game-header">
+      <div class="info">
+        <span id="mine-count">Minen: 10</span>
+        <!-- <span id="timer">Zeit: 0s</span> -->
+        <div id="timer" class="timer">00:00</div>
+      </div>
+      <button id="restart-btn">🔁 Neues Spiel</button>
+    </div>
+
+    <div id="game-board" class="game-board">
+      <!-- Zellen kommen hier rein -->
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

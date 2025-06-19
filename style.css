@@ -1,0 +1,127 @@
+/* === Grundlayout === */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #222;
+  color: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+  margin-bottom: 1rem;
+}
+
+.info {
+  display: flex;
+  gap: 1rem;
+}
+
+#restart-btn {
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #444;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#restart-btn:hover {
+  background-color: #666;
+}
+
+/* === Spielfeld (Grid) === */
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(10, 30px); /* Spaltenanzahl anpassbar */
+  grid-template-rows: repeat(10, 30px);    /* Reihenanzahl anpassbar */
+  gap: 2px;
+  border: 3px solid #000000;
+}
+
+/* === Zellen === */
+.cell {
+  width: 30px;
+  height: 30px;
+  background-color: #ccc;
+  border: 1px solid #000000;
+  text-align: center;
+  line-height: 30px;
+  font-weight: bold;
+  font-size: 16px;
+  user-select: none;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.cell.revealed {
+  background-color: #06bc00;
+  border: 1px solid #000000;
+  cursor: default;
+}
+
+.cell.mine {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.cell.flagged {
+  background-color: #3498db;
+  color: white;
+}
+
+
+/* === MessageBox Lose === */
+#game-over {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #333;
+  color: #a71212;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  z-index: 999;
+  display: none;
+}
+
+#game-over-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #553030;
+  color: rgb(211, 68, 68);
+  border: 1px solid #000000;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#game-over-btn:hover {
+  background-color: #00bff9;
+}
+
+.hidden {
+  /* display: always; */
+  visibility: none;
+}
+
+/* #timer {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #333;
+  font-family: monospace;
+} */
