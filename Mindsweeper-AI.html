@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Minesweeper-AI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Navigation oben rechts -->
+  <div class="top-bar">
+    <button id="settings-btn" class="nav-btn">Einstellungen</button>
+    <button id="about-btn" class="nav-btn">Über mich</button>
+  </div>
+  
+  <!-- Hauptspiel-Container -->
+  <div class="game-container">
+    <img src="Pictures/Minesweeper_flag.png" alt="Minesweeper Logo" class="logo">
+    <h1>Minesweeper-AI</h1>
+    <p>Minesweeper-Spiel mit KI-Unterstützung</p>
+
+    <div class="header-container">
+      <button id="start-btn" class="header-button">Spiel starten</button>
+      <button id="highscores-btn" class="header-button">Bestenliste</button>
+      <button id="about-btn" class="header-button">KI aktivieren</button>
+    </div>
+
+    <!-- Spiel-Header mit Minenzähler und Timer -->
+    <div class="game-header">
+      <div class="info">
+        <span id="mine-count">Minen: 10</span>
+        <!-- <div id="timer">00:00</div> -->
+        <span id="timer">00:00</span>
+      </div>
+      <!-- <div id="timer">00:00</div> -->
+      <button id="restart-btn" class="restart-btn">🔁 Neues Spiel</button>
+    </div>
+
+    <!-- Spiel-Board -->
+    <div id="game-board" class="game-board">
+      <!-- Zellen kommen hier rein -->
+    </div>
+
+    <!-- Bestenliste -->
+    <div id="leaderboard" class="leaderboard">
+      <h2>🏆 Bestenliste</h2>
+      <ol id="leaderboard-list" class="leaderboard-list"></ol>
+    </div>
+  </div>
+
+   
+
+  
+  <!-- Leaderboard Popup -->
+  <div id="leaderboard-popup" class="popup">
+    <div class="popup-content">
+      <h2>🏆 Bestenliste</h2>
+      <ul id="leaderboard-list-2">
+        <!-- Dynamisch gefüllt -->
+      </ul>
+      <button id="clear-leaderboard-btn">Leaderboard leeren</button>
+      <button id="close-leaderboard-btn">Schließen</button>
+    </div>
+  </div>
+
+  <!-- Popups für Game Over und Win -->
+   <div id="game-over" class="game-over">
+    <h2>💥 Game Over!</h2>
+    <p>Du bist auf eine Mine getreten.</p>
+    <button id="game-over-btn" class="game-over-btn">Neu starten</button> 
+    <button id="game-over-leaderboard-btn" class="nav-btn">Bestenliste</button> 
+  </div>
+
+  <div id="game-win" class="game-win">
+    <h2>"🎉 Glückwunsch!"</h2>
+    <p>"Du hast alle Minen erfolgreich umgangen!"</p>
+    <button id="game-win-btn" class="game-win-btn">Neu starten</button> 
+    <button id="game-win-leaderboard-btn" class="nav-btn">Bestenliste</button> 
+  </div>
+
+  
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+<!-- Einstellungslogik:
+
+<div id="settings-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Einstellungen</h2>
+      <form id="settings-form">
+        <label for="difficulty">Schwierigkeit:</label>
+        <select id="difficulty" name="difficulty">
+          <option value="easy">Einfach</option>
+          <option value="medium">Mittel</option>
+          <option value="hard">Schwer</option>
+        </select>
+        <button type="submit" class="save-btn">Speichern</button>
+      </form>
+    </div>
+  </div> -->
+
+
+
+<!-- Bestenliste-Logik:
+
+ <div id="highscores-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Bestenliste</h2>
+      <table id="highscores-table">
+        <thead>
+          <tr>
+            <th>Platz</th>
+            <th>Name</th>
+            <th>Zeit</th>
+          </tr>
+        </thead>
+        <tbody> -->
+          <!-- Bestenliste wird hier dynamisch eingefügt -->
+        <!-- </tbody>
+      </table>
+    </div>
+  </div> -->
