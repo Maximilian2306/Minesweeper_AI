@@ -5,37 +5,78 @@ let gameOver = false;
 
 let startTime = null;
 let timerInterval = null;
-const timerDisplay = document.getElementById('timer'); // Muss im HTML existieren!
-
 
 /**
  * Referenzen auf die HTML-Elemente, die für das Spiel benötigt werden.
  */
-const boardElement = document.getElementById('game-board');
-const mineCounter = document.getElementById('mine-count');
-const restartBtn = document.getElementById('restart-btn');
-const msgBoxLose = document.getElementById('game-over');
-const msgBoxLoseBtn = document.getElementById('game-over-btn');
-const msgBoxLoseLBBtn = document.getElementById('game-over-leaderboard-btn');
-const msgBoxWin = document.getElementById('game-win');
-const msgBoxWinBtn = document.getElementById('game-win-btn');
-const msgBoxWinLBBtn = document.getElementById('game-win-leaderboard-btn');
+// Timer Element //
+const timerDisplay = document.getElementById('timer'); // Muss im HTML existieren!
+// Minen Counter Element //
+const mineCounter = document.getElementById('mine-count'); // Muss im HTML existieren!
+// Gameboard Element //
+const boardElement = document.getElementById('game-board'); // Muss im HTML existieren!
+// Leaderboard Elemente //
+const leaderboardKey = 'minesweeper-leaderboard'; // Schlüssel für die Bestenliste im Local Storage
+const leaderboardList = document.getElementById('leaderboard-list'); // Bestenliste
+const leaderboardListPopup = document.getElementById('leaderboard-list-popup'); // Bestenliste im Pop-up
+// Button Elemente //
+const restartBtn = document.getElementById('restart-btn'); // Restart Button
+const msgBoxLoseBtn = document.getElementById('game-over-btn'); // Game Over Button
+const msgBoxLoseLBBtn = document.getElementById('game-over-leaderboard-btn'); // Game Over Button für die Bestenliste
+const msgBoxWinBtn = document.getElementById('game-win-btn'); // Game Win Button
+const msgBoxWinLBBtn = document.getElementById('game-win-leaderboard-btn'); // Game Win Button für die Bestenliste
+const openLeaderboardBtn = document.getElementById('open-leaderboard-btn'); // Öffnen Button für die Bestenliste
+const closeLeaderboardBtn = document.getElementById('close-leaderboard-btn'); // Schließen Button für die Bestenliste
+const clearLeaderboardBtn = document.getElementById('clear-leaderboard-btn'); // Bestenliste leeren Button
+// Pop-up Nachrichtenboxen //
+const msgBoxLose = document.getElementById('game-over'); // Pop-up für Game Over
+const msgBoxWin = document.getElementById('game-win'); // Pop-up für Game Win
+const leaderboardPopup = document.getElementById('leaderboard-popup'); // Pop-up für die Bestenliste
 
-const leaderboardPopup = document.getElementById('leaderboard-popup');
-const closeLeaderboardBtn = document.getElementById('close-leaderboard-btn');
-const clearLeaderboardBtn = document.getElementById('clear-leaderboard-btn');
-const highscoresBtn = document.getElementById('highscores-btn'); 
-
-const leaderboardKey = 'minesweeper-leaderboard';
-const leaderboardList = document.getElementById('leaderboard-list');
 
 /**
- * Initialisiert die Event-Listener welche beim clicken auf den Restart-Button oder den "Game Over"-Button das Spiel neu starten.
+ * Initialisiert die Event-Listener welche beim clicken auf die verschiedenen Buttons bestimmte Funktionen/Aktionen ausführen.
  * Diese Funktion wird auch direkt beim Laden der Seite aufgerufen, um das Spiel zu initialisieren
  */
+// Restart-Button //
 restartBtn.addEventListener('click', init);
 msgBoxLoseBtn.addEventListener('click', init);
 msgBoxWinBtn.addEventListener('click', init);
+
+// Öffne das Leaderboard-Popup (für Game Over)
+msgBoxLoseLBBtn.addEventListener('click', () => {
+  renderLeaderboard();
+  leaderboardPopup.style.display = 'flex';
+  document.body.classList.add('popup-open');
+});
+
+// Öffne das Leaderboard-Popup (für Game Win)
+msgBoxWinLBBtn.addEventListener('click', () => {
+  renderLeaderboard();
+  leaderboardPopup.style.display = 'flex';
+  document.body.classList.add('popup-open');
+});
+
+// Öffne das Leaderboard-Popup (über den Header-Button)
+openLeaderboardBtn.addEventListener('click', () => {
+  renderLeaderboard();
+  leaderboardPopup.style.display = 'flex';
+  document.body.classList.add('popup-open');
+});
+
+// Schließen des Leaderboard-Popups
+closeLeaderboardBtn.addEventListener('click', () => {
+  leaderboardPopup.style.display = 'none';
+  document.body.classList.remove('popup-open');
+});
+
+// Leeren des Leaderboards Cache
+clearLeaderboardBtn.addEventListener('click', () => {
+  if (confirm("Bist du sicher, dass du die Bestenliste löschen willst?")) {
+    localStorage.removeItem(leaderboardKey);
+    renderLeaderboard();
+  }
+});
 
 
 /**
@@ -219,8 +260,6 @@ function getCellDiv(x, y) {
 }
 
 function showGameOverMessage() {
-  // const msgBox = document.getElementById('game-over');
-  //msgBoxLose.classList.add('message-box');
   msgBoxLose.style.display = 'block';
 }
 
@@ -239,41 +278,6 @@ function updateTimer() {
   const seconds = (elapsedSeconds % 60).toString().padStart(2, '0');
   timerDisplay.textContent = `${minutes}:${seconds}`;
 }
-
-
-
-// Öffne das Leaderboard-Popup
-msgBoxLoseLBBtn.addEventListener('click', () => {
-  renderLeaderboard();
-  leaderboardPopup.style.display = 'block';
-});
-
-// Öffne das Leaderboard-Popup
-msgBoxWinLBBtn.addEventListener('click', () => {
-  renderLeaderboard();
-  leaderboardPopup.style.display = 'block';
-});
-
-// Öffne das Leaderboard-Popup
-highscoresBtn.addEventListener('click', () => {
-  // showLeaderboard();
-  renderLeaderboard();
-  leaderboardPopup.style.display = 'block';
-  // leaderboardModal.classList.remove('hidden');
-});
-
-// Schließen
-closeLeaderboardBtn.addEventListener('click', () => {
-  // leaderboardModal.classList.add('hidden');
-  leaderboardPopup.style.display = 'none';
-});
-
-// Leeren
-clearLeaderboardBtn.addEventListener('click', () => {
-  localStorage.removeItem('leaderboard');
-  renderLeaderboard();
-});
-
 
 
 
@@ -303,17 +307,29 @@ function saveWinToLeaderboard(timeInSeconds) {
 // Bestenliste anzeigen
 function renderLeaderboard() {
   const leaderboard = JSON.parse(localStorage.getItem(leaderboardKey)) || [];
+
+    // Normales Board
   leaderboardList.innerHTML = '';
+  // Popup-Board
+  leaderboardListPopup.innerHTML = '';
 
   if (leaderboard.length === 0) {
     leaderboardList.innerHTML = '<li>Keine Einträge</li>';
+    leaderboardListPopup.innerHTML = '<li>Keine Einträge</li>';
     return;
   }
 
   leaderboard.forEach(entry => {
-    const li = document.createElement('li');
-    li.innerHTML = `<span>${entry.name}</span><span>${formatTime(entry.time)}</span>`;
-    leaderboardList.appendChild(li);
+    const listItem1 = document.createElement('li');
+    const listItem2 = document.createElement('li');
+
+    const timeStamp = formatTime(entry.time);
+
+    listItem1.innerHTML = `<span>${entry.name}</span><span>${timeStamp}</span>`;
+    listItem2.innerHTML = `<span>${entry.name}</span><span>${timeStamp}</span>`;
+    
+    leaderboardList.appendChild(listItem1);
+    leaderboardListPopup.appendChild(listItem2);
   });
 }
 
@@ -323,13 +339,6 @@ function formatTime(seconds) {
   const secs = (seconds % 60).toString().padStart(2, '0');
   return `${mins}:${secs}`;
 }
-
-
-
-
-
-
-
 
 
 
