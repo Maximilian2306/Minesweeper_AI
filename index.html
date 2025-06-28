@@ -20,6 +20,7 @@
   <div class="game-container">
     <img src="Pictures/Minesweeper_flag.png" alt="Minesweeper Logo" class="logo">
     <h1>Minesweeper-AI</h1>
+    <button id="arcade-btn" class="nav-btn">🎮 Arcade starten</button> <!-- Spaß Funktion -->
     <p>Minesweeper-Spiel mit KI-Unterstützung</p>
 
     <div id="header-container" class="header-container">
@@ -99,6 +100,12 @@
       <button class="mode-btn" data-size="14" data-mines="30">Fortgeschritten (14x14 Spielfeld, 30 Minen)</button>
       <button class="mode-btn" data-size="18" data-mines="50">Profi (18x18 Spielfeld, 50 Minen)</button>
     </div>
+  </div>
+
+  <!-- Spaß Funktion Popup -->
+  <div id="arcade-view" style="display: none;">
+    <canvas id="pong-canvas" width="1300" height="600"></canvas>
+    <button id="exit-arcade" style="position: absolute; top: 1rem; left: 1rem;">⬅ Zurück</button>
   </div>
 
   

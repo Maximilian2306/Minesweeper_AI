@@ -662,5 +662,91 @@ function formatTime(seconds) {
 
 
 
+// Spaß-Funktion: Arcade-Spiel (Pong)
+const arcadeBtn = document.getElementById("arcade-btn");
+const arcadeView = document.getElementById("arcade-view");
+const exitArcade = document.getElementById("exit-arcade");
+const canvas = document.getElementById("pong-canvas");
+const ctx = canvas.getContext("2d");
+
+arcadeBtn.addEventListener("click", () => {
+  document.body.style.overflow = "hidden";
+  document.querySelector(".game-container").style.display = "none";
+  arcadeView.style.display = "block";
+  requestAnimationFrame(gameLoop);
+});
+
+exitArcade.addEventListener("click", () => {
+  arcadeView.style.display = "none";
+  document.querySelector(".game-container").style.display = "grid";
+  document.body.style.overflow = "auto";
+  cancelAnimationFrame(animationId);
+});
+
+// --- Simple Pong Game ---
+let paddleHeight = 100, paddleWidth = 10;
+let leftY = 200, rightY = 200;
+let ballX = 400, ballY = 250, ballSpeedX = 4, ballSpeedY = 4;
+let animationId = null;
+
+const keys = {};
+document.addEventListener("keydown", e => keys[e.key] = true);
+document.addEventListener("keyup", e => keys[e.key] = false);
+
+function gameLoop() {
+  // Movement
+  if (keys["w"]) leftY -= 5;
+  if (keys["s"]) leftY += 5;
+  if (keys["ArrowUp"]) rightY -= 5;
+  if (keys["ArrowDown"]) rightY += 5;
+
+  // Ball movement
+  ballX += ballSpeedX;
+  ballY += ballSpeedY;
+
+  // Wall bounce
+  if (ballY <= 0 || ballY >= canvas.height) ballSpeedY *= -1;
+
+  // Paddle bounce
+  if (
+    ballX <= paddleWidth &&
+    ballY > leftY && ballY < leftY + paddleHeight
+  ) ballSpeedX *= -1;
+
+  if (
+    ballX >= canvas.width - paddleWidth &&
+    ballY > rightY && ballY < rightY + paddleHeight
+  ) ballSpeedX *= -1;
+
+  // Reset ball if out
+  if (ballX < 0 || ballX > canvas.width) {
+    ballX = canvas.width / 2;
+    ballY = canvas.height / 2;
+    ballSpeedX = -ballSpeedX;
+  }
+
+  // Draw
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Paddles
+  ctx.fillStyle = "white";
+  ctx.fillRect(0, leftY, paddleWidth, paddleHeight);
+  ctx.fillRect(canvas.width - paddleWidth, rightY, paddleWidth, paddleHeight);
+
+  // Ball
+  ctx.beginPath();
+  ctx.arc(ballX, ballY, 10, 0, Math.PI * 2);
+  ctx.fill();
+
+  animationId = requestAnimationFrame(gameLoop);
+}
+// --- Ende des Arcade-Spiels ---
+
+
+
+
+
+
+
 // Start direkt beim Laden
 init();
