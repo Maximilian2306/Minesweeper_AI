@@ -22,10 +22,17 @@
     <h1>Minesweeper-AI</h1>
     <p>Minesweeper-Spiel mit KI-Unterstützung</p>
 
-    <div class="header-container">
+    <div id="header-container" class="header-container">
       <button id="start-btn" class="header-button">Spiel starten</button>
       <button id="open-leaderboard-btn" class="header-button">Bestenliste</button>
-      <button id="about-btn" class="header-button">KI aktivieren</button>
+      <button id="kiActBtn" class="header-button">KI aktivieren</button>
+
+      <!-- KI-Auswahl-Menü -->
+      <div id="kiMenu" style="display: none; position: absolute; z-index: 100;">
+        <button id="startRuleKI">🧠 Regel-KI</button>
+        <button id="startRandomKI">🎲 Zufalls-KI</button>
+      </div>
+      <button id="stopKI" style="display: none; background-color: red; color: white;">🛑 KI stoppen</button>
     </div>
 
     
@@ -81,6 +88,17 @@
     <p>"Du hast alle Minen erfolgreich umgangen!"</p>
     <button id="game-win-btn" class="game-win-btn">Neu starten</button> 
     <button id="game-win-leaderboard-btn" class="leaderboard-btn">Bestenliste</button> 
+  </div>
+
+  <!-- Modus-Auswahl Popup -->
+  <div id="mode-popup" class="popup">
+    <div class="popup-content">
+      <h2>🎮 Spielmodus wählen</h2>
+      <button class="mode-btn" data-size="4" data-mines="1">Anfänger (4x4 Spielfeld, 1 Minen)</button>
+      <button class="mode-btn" data-size="10" data-mines="10">Mittelmäßig (10x10 Spielfeld, 10 Minen)</button>
+      <button class="mode-btn" data-size="14" data-mines="30">Fortgeschritten (14x14 Spielfeld, 30 Minen)</button>
+      <button class="mode-btn" data-size="18" data-mines="50">Profi (18x18 Spielfeld, 50 Minen)</button>
+    </div>
   </div>
 
   

@@ -1,10 +1,13 @@
-const boardSize = 2;         // 10x10 Grid
-const mineCount = 1;         // Anzahl der Minen
-const board = [];             // Spielfeld als 2D-Array
+let boardSize = 10;      // Größe des Spielfelds (10x10 Grid)
+let mineCount = 10;      // Anzahl der Minen
+const board = [];        // Spielfeld als 2D-Array
 let gameOver = false;
 
-let startTime = null;
-let timerInterval = null;
+let startTime = null;    // Startzeit für den Timer
+let timerInterval = null;   // Timer Intervall
+
+let kiRunning = false;  // Flag, ob die KI aktiv ist
+let kiTimeout = null;   // Timeout für die KI, um sie zu stoppen
 
 /**
  * Referenzen auf die HTML-Elemente, die für das Spiel benötigt werden.
@@ -15,19 +18,38 @@ const timerDisplay = document.getElementById('timer'); // Muss im HTML existiere
 const mineCounter = document.getElementById('mine-count'); // Muss im HTML existieren!
 // Gameboard Element //
 const boardElement = document.getElementById('game-board'); // Muss im HTML existieren!
+// Header Container Element //
+const headerContainer = document.getElementById('header-container'); 
 // Leaderboard Elemente //
 const leaderboardKey = 'minesweeper-leaderboard'; // Schlüssel für die Bestenliste im Local Storage
 const leaderboardList = document.getElementById('leaderboard-list'); // Bestenliste
 const leaderboardListPopup = document.getElementById('leaderboard-list-popup'); // Bestenliste im Pop-up
-// Button Elemente //
+/**
+ * Referenzen auf die Buttons, die im Spiel verwendet werden.
+ */
+// Start Button //
+const startBtn = document.getElementById('start-btn'); // Start Button
+const modePopup = document.getElementById('mode-popup'); // Modus-Auswahl Popup
+const modeButtons = document.querySelectorAll('.mode-btn'); // Modus-Auswahl Buttons (Anfänger, Mittelmäßig, Fortgeschritten, Profi)
+// KI Buttons //
+const kiButton = document.getElementById('kiActBtn'); // KI Button
+const ruleBasedKIBtn = document.getElementById("startRuleKI"); // Regelbasierte KI Button
+const randomKIBtn = document.getElementById("startRandomKI"); // Zufalls-KI Button
+const kiMenu = document.getElementById("kiMenu"); // KI Menü-Dialog
+const stopBtn = document.getElementById("stopKI"); // Stop-KI Button
+// Restart Button //
 const restartBtn = document.getElementById('restart-btn'); // Restart Button
+// Message Box Buttons //
 const msgBoxLoseBtn = document.getElementById('game-over-btn'); // Game Over Button
 const msgBoxLoseLBBtn = document.getElementById('game-over-leaderboard-btn'); // Game Over Button für die Bestenliste
 const msgBoxWinBtn = document.getElementById('game-win-btn'); // Game Win Button
 const msgBoxWinLBBtn = document.getElementById('game-win-leaderboard-btn'); // Game Win Button für die Bestenliste
+// Bestenliste Buttons //
 const openLeaderboardBtn = document.getElementById('open-leaderboard-btn'); // Öffnen Button für die Bestenliste
 const closeLeaderboardBtn = document.getElementById('close-leaderboard-btn'); // Schließen Button für die Bestenliste
 const clearLeaderboardBtn = document.getElementById('clear-leaderboard-btn'); // Bestenliste leeren Button
+
+
 // Pop-up Nachrichtenboxen //
 const msgBoxLose = document.getElementById('game-over'); // Pop-up für Game Over
 const msgBoxWin = document.getElementById('game-win'); // Pop-up für Game Win
@@ -38,8 +60,288 @@ const leaderboardPopup = document.getElementById('leaderboard-popup'); // Pop-up
  * Initialisiert die Event-Listener welche beim clicken auf die verschiedenen Buttons bestimmte Funktionen/Aktionen ausführen.
  * Diese Funktion wird auch direkt beim Laden der Seite aufgerufen, um das Spiel zu initialisieren
  */
+// "Spiel starten" öffnet Popup zur Moduswahl
+startBtn.addEventListener('click', () => {
+  modePopup.style.display = 'flex';
+  document.body.classList.add('popup-open');
+});
+
+// Modusauswahl-Buttons
+modeButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    boardSize = parseInt(button.getAttribute('data-size'));
+    mineCount = parseInt(button.getAttribute('data-mines'));
+
+    // CSS-Grid dynamisch anpassen
+    boardElement.style.gridTemplateColumns = `repeat(${boardSize}, 30px)`;
+    boardElement.style.gridTemplateRows = `repeat(${boardSize}, 30px)`;
+
+    modePopup.style.display = 'none';
+    document.body.classList.remove('popup-open');
+    kiRunning = false; // Stoppe die KI, wenn ein neuer Spiel-Modus gewählt wird
+    stopBtn.style.display = 'none'; // Verstecke den Stop-KI Button
+    kiMenu.style.display = "none"; // Verstecke das KI-Menü
+    headerContainer.style.maxWidth = "360px"; // Header zurücksetzen
+    init(); // Spiel starten mit neuem Modus
+  });
+});
+
+
+// "KI aktivieren" Button
+kiButton.addEventListener("click", (e) => {
+  if (kiMenu.style.display === "none") {
+    // Menü direkt neben dem Button positionieren
+    const rect = kiButton.getBoundingClientRect();
+    kiMenu.style.left = rect.left + "px";
+    kiMenu.style.top = (rect.bottom + window.scrollY) + "px";
+    kiMenu.style.display = "block";
+  } else {
+    kiMenu.style.display = "none";
+  }
+});
+
+// "Stop KI" Button
+stopBtn.addEventListener("click", () => {
+  kiRunning = false;
+  stopBtn.style.display = "none"; // Verstecke den Stop-KI Button
+  headerContainer.style.maxWidth = "360px"; // Header zurücksetzen
+  kiMenu.style.display = "none" ; // Verstecke das KI-Menü
+  clearTimeout(kiTimeout);
+});
+
+// // Zufalls-KI Button
+// randomKIBtn.addEventListener("click", async () => {
+//   kiMenu.style.display = "none";
+//   stopBtn.style.display = "inline-block";
+//   headerContainer.style.maxWidth = "460px"; // Erweitere den Header für die KI
+
+//   if (kiRunning) return; // Verhindere mehrfaches Starten der KI
+//   kiRunning = true; 
+
+//   while (kiRunning) {
+//     await sleep(100); // kleine Pause für realistischere "Denkzeit"
+
+//     if (gameOver) {
+//       init(); // Spiel bei Verlust automatisch neustarten
+//       await sleep(200); // Pause nach Neustart
+//       continue;
+//     }
+
+//     const unrevealedCells = [];
+//     for (let y = 0; y < boardSize; y++) {
+//       for (let x = 0; x < boardSize; x++) {
+//         const cell = board[y][x];
+//         if (!cell.revealed && !cell.flagged) {
+//           unrevealedCells.push({ x, y });
+//         }
+//       }
+//     }
+
+//     if (unrevealedCells.length === 0) { 
+//       kiRunning = false;
+//       stopBtn.style.display = "none"; // Verstecke den Stop-KI Button
+//       headerContainer.style.maxWidth = "360px"; // Header zurücksetzen
+//       break;
+//     }
+
+//     const randomCell = unrevealedCells[Math.floor(Math.random() * unrevealedCells.length)];
+//     handleLeftClick(randomCell.x, randomCell.y);
+//   }
+// });
+
+randomKIBtn.addEventListener("click", async () => {
+  kiMenu.style.display = "none";
+  stopBtn.style.display = "inline-block";
+  headerContainer.style.maxWidth = "460px";
+
+  if (kiRunning) return;
+  kiRunning = true;
+
+  // Einmal alle möglichen Zellen sammeln
+  let unrevealedCells = [];
+  for (let y = 0; y < boardSize; y++) {
+    for (let x = 0; x < boardSize; x++) {
+      const cell = board[y][x];
+      if (!cell.revealed && !cell.flagged) {
+        unrevealedCells.push({ x, y });
+      }
+    }
+  }
+
+  // Mische die Zellen (Fisher-Yates Shuffle)
+  for (let i = unrevealedCells.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [unrevealedCells[i], unrevealedCells[j]] = [unrevealedCells[j], unrevealedCells[i]];
+  }
+
+  let i = 0;
+
+  while (kiRunning && i < unrevealedCells.length) {
+    await sleep(50); // Kürzere Denkzeit möglich
+
+    if (gameOver) {
+      init();
+      await sleep(200);
+
+      // Neue Liste erstellen nach Neustart
+      unrevealedCells = [];
+      for (let y = 0; y < boardSize; y++) {
+        for (let x = 0; x < boardSize; x++) {
+          const cell = board[y][x];
+          if (!cell.revealed && !cell.flagged) {
+            unrevealedCells.push({ x, y });
+          }
+        }
+      }
+
+      // Liste neu mischen
+      for (let i = unrevealedCells.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [unrevealedCells[i], unrevealedCells[j]] = [unrevealedCells[j], unrevealedCells[i]];
+      }
+
+      i = 0;
+      continue;
+    }
+
+    const cell = unrevealedCells[i++];
+    handleLeftClick(cell.x, cell.y);
+  }
+
+  // kiRunning = false;
+  // stopBtn.style.display = "none";
+  // headerContainer.style.maxWidth = "360px";
+});
+
+// Hilfsfunktion für Verzögerung (Warte Funktion)
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+// Regelbasierte KI Button
+// ruleBasedKIBtn.addEventListener("click", async () => {
+//   if (gameOver) return;
+//   if (kiRunning) return; // Verhindere mehrfaches Starten der KI
+//   kiMenu.style.display = "none";
+//   stopBtn.style.display = "inline-block";
+//   headerContainer.style.maxWidth = "460px"; // Erweitere den Header für die KI
+//   kiRunning = true;
+//   runRuleBasedAI();
+// });
+
+// Regelbasierte KI Button
+ruleBasedKIBtn.addEventListener("click", async () => {
+  if (gameOver || kiRunning) return;
+
+  kiMenu.style.display = "none";
+  stopBtn.style.display = "inline-block";
+  headerContainer.style.maxWidth = "460px";
+  kiRunning = true;
+
+  while (kiRunning) {
+    await sleep(100);
+
+    if (gameOver) {
+      init();
+      await sleep(200);
+      continue;
+    }
+
+    let changed = false;
+
+    for (let y = 0; y < boardSize; y++) {
+      for (let x = 0; x < boardSize; x++) {
+        const cell = board[y][x];
+        if (!cell.revealed || cell.number === 0) continue;
+
+        const neighbors = getNeighbors(x, y);
+        const flagged = neighbors.filter(n => n.flagged).length;
+        const hidden = neighbors.filter(n => !n.revealed && !n.flagged);
+
+        if (flagged === cell.number) {
+          for (const n of hidden) {
+            if (!n.revealed) {
+              handleLeftClick(n.x, n.y);
+              changed = true;
+              await sleep(50);
+            }
+          }
+        }
+
+        if (hidden.length > 0 && hidden.length === (cell.number - flagged)) {
+          for (const n of hidden) {
+            if (!n.flagged) {
+              handleRightClick(n.x, n.y);
+              changed = true;
+              await sleep(50);
+            }
+          }
+        }
+      }
+    }
+
+    if (!changed) {
+      const guess = pickRandomUnrevealed();
+      if (guess) {
+        handleLeftClick(guess.x, guess.y);
+      } else {
+        kiRunning = false;
+        stopBtn.style.display = "none";
+        headerContainer.style.maxWidth = "360px";
+        break;
+      }
+    }
+  }
+});
+
+// Hilfsfunktion: Nachbarn eines Feldes finden
+function getNeighbors(x, y) {
+  const neighbors = [];
+
+  for (let dx = -1; dx <= 1; dx++) {
+    for (let dy = -1; dy <= 1; dy++) {
+      if (dx === 0 && dy === 0) continue;
+
+      const nx = x + dx;
+      const ny = y + dy;
+
+      if (nx >= 0 && nx < boardSize && ny >= 0 && ny < boardSize) {
+        const neighbor = board[ny][nx];
+        neighbors.push({ ...neighbor, x: nx, y: ny }); // Wichtig: Koordinaten mitschicken!
+      }
+    }
+  }
+
+  return neighbors;
+}
+
+// Hilfsfunktion: zufälliges Feld wählen
+function pickRandomUnrevealed() {
+  const list = [];
+  for (let y = 0; y < boardSize; y++) {
+    for (let x = 0; x < boardSize; x++) {
+      const cell = board[y][x];
+      if (!cell.revealed && !cell.flagged) {
+        list.push({ x, y });
+      }
+    }
+  }
+  if (list.length === 0) return null;
+  return list[Math.floor(Math.random() * list.length)];
+}
+
+
+
+
 // Restart-Button //
-restartBtn.addEventListener('click', init);
+restartBtn.addEventListener('click', () => {
+  init();
+  kiRunning = false; // Stoppe die KI, wenn das Spiel neu gestartet wird
+  stopBtn.style.display = 'none'; // Verstecke den Stop-KI Button
+  kiMenu.style.display = "none"; // Verstecke das KI-Menü
+  headerContainer.style.maxWidth = "360px"; // Header zurücksetzen
+});
 msgBoxLoseBtn.addEventListener('click', init);
 msgBoxWinBtn.addEventListener('click', init);
 
@@ -60,6 +362,10 @@ msgBoxWinLBBtn.addEventListener('click', () => {
 // Öffne das Leaderboard-Popup (über den Header-Button)
 openLeaderboardBtn.addEventListener('click', () => {
   renderLeaderboard();
+  kiRunning = false; // Stoppe die KI, wenn das Leaderboard geöffnet wird
+  stopBtn.style.display = 'none'; // Verstecke den Stop-KI Button
+  kiMenu.style.display = "none"; // Verstecke das KI-Menü
+  headerContainer.style.maxWidth = "360px"; // Header zurücksetzen
   leaderboardPopup.style.display = 'flex';
   document.body.classList.add('popup-open');
 });
@@ -72,9 +378,14 @@ closeLeaderboardBtn.addEventListener('click', () => {
 
 // Leeren des Leaderboards Cache
 clearLeaderboardBtn.addEventListener('click', () => {
-  if (confirm("Bist du sicher, dass du die Bestenliste löschen willst?")) {
-    localStorage.removeItem(leaderboardKey);
-    renderLeaderboard();
+  if (localStorage.getItem(leaderboardKey) === null) {
+    alert("Die Bestenliste ist bereits leer.");
+    return;
+  } else {
+    if (confirm("Bist du sicher, dass du die Bestenliste löschen willst?")) {
+      localStorage.removeItem(leaderboardKey);
+      renderLeaderboard();
+    }
   }
 });
 
@@ -186,13 +497,22 @@ function handleLeftClick(x, y) {
 
   if (cell.mine) {
     revealAllMines();
-    showGameOverMessage();
+    // showGameOverMessage();
+    if (!kiRunning) showGameOverMessage(); // Nur anzeigen, wenn kein KI-Modus läuft
 
     gameOver = true;
     clearInterval(timerInterval);
   }
 
   if (checkWin()) {
+
+    if (kiRunning) { // Wenn KI läuft, stoppe sie
+      stopBtn.style.display = "none"; // Verstecke den Stop-KI Button
+      kiMenu.style.display = "none"; // Verstecke das KI-Menü
+      headerContainer.style.maxWidth = "360px"; // Header zurücksetzen
+      kiRunning = false; // Setze KI-Status zurück
+    }
+
     revealAllMines();
     showWinMessage(); 
 
@@ -278,8 +598,6 @@ function updateTimer() {
   const seconds = (elapsedSeconds % 60).toString().padStart(2, '0');
   timerDisplay.textContent = `${minutes}:${seconds}`;
 }
-
-
 
 // Siegerergebnis speichern
 function saveWinToLeaderboard(timeInSeconds) {
