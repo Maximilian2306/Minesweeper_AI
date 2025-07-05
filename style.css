@@ -374,6 +374,10 @@ body.popup-open {
 
 
 
+
+
+
+/* === Spaß Funktion === */
 /* === Arcade Modus === */
 #arcade-view {
   position: fixed;
@@ -405,6 +409,29 @@ body.popup-open {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+#arcade-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  color: white;
+  font-size: 1.2rem;
+}
+
+#arcade-menu button {
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  background: #444;
+  color: #fff;
+  border: 1px solid #999;
+  border-radius: 0.5rem;
+}
+
+#arcade-menu h2 {
+  margin-bottom: 1rem;
 }
 
 
