@@ -1266,6 +1266,7 @@ function startSnake() {
 
 // --- Space Invaders Game ---
 function startInvaders() {
+
   let playerX = canvas.width / 2;
   let bullets = [];
   let invaders = Array.from({ length: 5 }, (_, i) => ({

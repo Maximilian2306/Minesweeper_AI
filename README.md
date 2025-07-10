@@ -1,2 +1,4 @@
-# Mindsweeper-AI
-Erste Anwendung mit integrierter KI 
+# Minesweeper_AI
+
+Erste Anwendung mit integrierter KI
+
