@@ -1,166 +1,191 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Minesweeper-AI</title>
-  <link rel="stylesheet" href="public/style.css" />
-</head>
-<body>
-
-
-  <!-- Navigation oben rechts -->
-  <div class="top-bar">
-    <button id="settings-btn" class="nav-btn">Einstellungen</button>
-    <button id="about-btn" class="nav-btn">Über mich</button>
-  </div>
-  
-
-  <!-- Hauptspiel-Container -->
-  <div class="game-container">
-    <img src="public/assets/Pictures/Minesweeper_flag.png" alt="Minesweeper Logo" class="logo">
-    <h1>Minesweeper-AI</h1>
-    <button id="arcade-btn" class="nav-btn">🎮 Arcade starten</button> <!-- Spaß Funktion -->
-    <p>Minesweeper-Spiel mit KI-Unterstützung</p>
-
-    <div id="header-container" class="header-container">
-      <button id="start-btn" class="header-button">Spiel starten</button>
-      <button id="open-leaderboard-btn" class="header-button">Bestenliste</button>
-      <button id="kiActBtn" class="header-button">KI aktivieren</button>
-
-      <!-- KI-Auswahl-Menü -->
-      <div id="kiMenu" style="display: none; position: absolute; z-index: 100;">
-        <button id="startRuleKI">🧠 Regel-KI</button>
-        <button id="startRandomKI">🎲 Zufalls-KI</button>
-      </div>
-      <button id="stopKI" style="display: none; background-color: red; color: white;">🛑 KI stoppen</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minesweeper-AI</title>
+    <link rel="stylesheet" crossorigin href="/assets/index-BSa3w_uF.css">
+  </head>
+  <body>
+    <!-- Navigation oben rechts -->
+    <div class="top-bar">
+      <button id="settings-btn" class="nav-btn">Einstellungen</button>
+      <button id="about-btn" class="nav-btn">Über mich</button>
     </div>
 
-    
-    <!-- Spiel-Header mit Minenzähler und Timer -->
-    <div class="game-header">
-      <span id="mine-count">Minen: 10</span>
-      <div class="info">
+    <!-- Hauptspiel-Container -->
+    <div class="game-container">
+      <img
+        src="/assets/Minesweeper_flag-i5K1_42x.png"
+        alt="Minesweeper Logo"
+        class="logo"
+      />
+      <h1>Minesweeper-AI</h1>
+      <button id="arcade-btn" class="nav-btn">🎮 Arcade starten</button>
+      <!-- Spaß Funktion -->
+      <p>Minesweeper-Spiel mit KI-Unterstützung</p>
+
+      <div id="header-container" class="header-container">
+        <button id="start-btn" class="header-button">Spiel starten</button>
+        <button id="open-leaderboard-btn" class="header-button">
+          Bestenliste
+        </button>
+        <button id="kiActBtn" class="header-button">KI aktivieren</button>
+
+        <!-- KI-Auswahl-Menü -->
+        <div
+          id="kiMenu"
+          style="display: none; position: absolute; z-index: 100"
+        >
+          <button id="startRuleKI">🧠 Regel-KI</button>
+          <button id="startRandomKI">🎲 Zufalls-KI</button>
+        </div>
+        <button
+          id="stopKI"
+          style="display: none; background-color: red; color: white"
+        >
+          🛑 KI stoppen
+        </button>
+      </div>
+
+      <!-- Spiel-Header mit Minenzähler und Timer -->
+      <div class="game-header">
+        <span id="mine-count">Minen: 10</span>
+        <div class="info">
+          <!-- <div id="timer">00:00</div> -->
+          <span id="timer">00:00</span>
+        </div>
         <!-- <div id="timer">00:00</div> -->
-        <span id="timer">00:00</span>
+        <button id="restart-btn" class="restart-btn">🔁 Neues Spiel</button>
       </div>
-      <!-- <div id="timer">00:00</div> -->
-      <button id="restart-btn" class="restart-btn">🔁 Neues Spiel</button>
+
+      <!-- Spiel-Board -->
+      <div id="game-board" class="game-board">
+        <!-- Zellen kommen hier rein -->
+      </div>
+
+      <!-- Bestenliste -->
+      <div id="leaderboard" class="leaderboard">
+        <h2>🏆 Bestenliste</h2>
+        <ol id="leaderboard-list" class="leaderboard-list"></ol>
+      </div>
     </div>
 
-
-    <!-- Spiel-Board -->
-    <div id="game-board" class="game-board">
-      <!-- Zellen kommen hier rein -->
+    <!-- Einstellungen Popup -->
+    <div id="settings-popup" class="popup">
+      <div class="popup-content">
+        <h2>Einstellungen</h2>
+        <form id="settings-form">
+          <label for="language">Sprache:</label>
+          <select id="language" name="language">
+            <option value="de">Deutsch</option>
+            <option value="en">Englisch</option>
+          </select>
+          <button id="save-settings-btn" type="submit" class="nav-btn">
+            Speichern
+          </button>
+        </form>
+      </div>
     </div>
 
-
-    <!-- Bestenliste -->
-    <div id="leaderboard" class="leaderboard">
-      <h2>🏆 Bestenliste</h2>
-      <ol id="leaderboard-list" class="leaderboard-list"></ol>
+    <!-- About Me Popup -->
+    <div id="about-popup" class="popup">
+      <div class="popup-content">
+        <h2>Über mich</h2>
+        <label>....</label>
+        <button id="close-about-btn" type="submit" class="nav-btn">
+          Schließen
+        </button>
+      </div>
     </div>
-  </div>
 
-  <!-- Einstellungen Popup -->
-  <div id="settings-popup" class="popup">
-    <div class="popup-content">
-      <h2>Einstellungen</h2>
-      <form id="settings-form">
-        <label for="language">Sprache:</label>
-        <select id="language" name="language">
-          <option value="de">Deutsch</option>
-          <option value="en">Englisch</option>
-        </select>
-        <button id="save-settings-btn" type="submit" class="nav-btn">Speichern</button>
-      </form>
+    <!-- Leaderboard Popup -->
+    <div id="leaderboard-popup" class="popup">
+      <div class="popup-content">
+        <h2>🏆 Bestenliste</h2>
+        <ul id="leaderboard-list-popup" class="leaderboard-list">
+          <!-- Dynamisch gefüllt -->
+        </ul>
+        <button id="clear-leaderboard-btn" class="leaderboard-btn">
+          Leaderboard leeren
+        </button>
+        <button id="close-leaderboard-btn" class="leaderboard-btn">
+          Schließen
+        </button>
+      </div>
     </div>
-  </div>
 
-  <!-- About Me Popup -->
-  <div id="about-popup" class="popup">
-    <div class="popup-content">
-      <h2>Über mich</h2>
-      <label>....</label>
-      <button id="close-about-btn" type="submit" class="nav-btn">Schließen</button>
+    <!-- Popups für Game Over und Win -->
+    <div id="game-over" class="game-over">
+      <h2>💥 Game Over!</h2>
+      <p>Du bist auf eine Mine getreten.</p>
+      <button id="game-over-btn" class="game-over-btn">Neu starten</button>
+      <button id="game-over-leaderboard-btn" class="leaderboard-btn">
+        Bestenliste
+      </button>
     </div>
-  </div>
 
-  
-  <!-- Leaderboard Popup -->
-  <div id="leaderboard-popup" class="popup">
-    <div class="popup-content">
-      <h2>🏆 Bestenliste</h2>
-      <ul id="leaderboard-list-popup" class="leaderboard-list">
-        <!-- Dynamisch gefüllt -->
-      </ul>
-      <button id="clear-leaderboard-btn" class="leaderboard-btn">Leaderboard leeren</button>
-      <button id="close-leaderboard-btn" class="leaderboard-btn">Schließen</button>
+    <div id="game-win" class="game-win">
+      <h2>"🎉 Glückwunsch!"</h2>
+      <p>"Du hast alle Minen erfolgreich umgangen!"</p>
+      <button id="game-win-btn" class="game-win-btn">Neu starten</button>
+      <button id="game-win-leaderboard-btn" class="leaderboard-btn">
+        Bestenliste
+      </button>
     </div>
-  </div>
 
-
-  <!-- Popups für Game Over und Win -->
-   <div id="game-over" class="game-over">
-    <h2>💥 Game Over!</h2>
-    <p>Du bist auf eine Mine getreten.</p>
-    <button id="game-over-btn" class="game-over-btn">Neu starten</button> 
-    <button id="game-over-leaderboard-btn" class="leaderboard-btn">Bestenliste</button> 
-  </div>
-
-  <div id="game-win" class="game-win">
-    <h2>"🎉 Glückwunsch!"</h2>
-    <p>"Du hast alle Minen erfolgreich umgangen!"</p>
-    <button id="game-win-btn" class="game-win-btn">Neu starten</button> 
-    <button id="game-win-leaderboard-btn" class="leaderboard-btn">Bestenliste</button> 
-  </div>
-
-  <div id="game-win-nameInp" class="game-win">
-    <h2>"🎉 Du hast gewonnen!"</h2>
-    <p>"Bitte gib deinen Namen ein:"</p>
-    <input type="text" id="nameInp" placeholder="Dein Name" />
-    <button id="save-nameInp-btn" class="nav-btn">Speichern</button> 
-  </div>
-
-  <!-- Modus-Auswahl Popup -->
-  <div id="mode-popup" class="popup">
-    <div class="popup-content">
-      <h2>🎮 Spielmodus wählen</h2>
-      <button class="mode-btn" data-size="4" data-mines="1">Anfänger (4x4 Spielfeld, 1 Minen)</button>
-      <button class="mode-btn" data-size="10" data-mines="10">Mittelmäßig (10x10 Spielfeld, 10 Minen)</button>
-      <button class="mode-btn" data-size="14" data-mines="30">Fortgeschritten (14x14 Spielfeld, 30 Minen)</button>
-      <button class="mode-btn" data-size="18" data-mines="50">Profi (18x18 Spielfeld, 50 Minen)</button>
+    <div id="game-win-nameInp" class="game-win">
+      <h2>"🎉 Du hast gewonnen!"</h2>
+      <p>"Bitte gib deinen Namen ein:"</p>
+      <input type="text" id="nameInp" placeholder="Dein Name" />
+      <button id="save-nameInp-btn" class="nav-btn">Speichern</button>
     </div>
-  </div>
 
-  <!-- Spaß Funktion Popup -->
-  <!-- <div id="arcade-view" style="display: none;">
+    <!-- Modus-Auswahl Popup -->
+    <div id="mode-popup" class="popup">
+      <div class="popup-content">
+        <h2>🎮 Spielmodus wählen</h2>
+        <button class="mode-btn" data-size="4" data-mines="1">
+          Anfänger (4x4 Spielfeld, 1 Minen)
+        </button>
+        <button class="mode-btn" data-size="10" data-mines="10">
+          Mittelmäßig (10x10 Spielfeld, 10 Minen)
+        </button>
+        <button class="mode-btn" data-size="14" data-mines="30">
+          Fortgeschritten (14x14 Spielfeld, 30 Minen)
+        </button>
+        <button class="mode-btn" data-size="18" data-mines="50">
+          Profi (18x18 Spielfeld, 50 Minen)
+        </button>
+      </div>
+    </div>
+
+    <!-- Spaß Funktion Popup -->
+    <!-- <div id="arcade-view" style="display: none;">
     <canvas id="pong-canvas" width="1300" height="600"></canvas>
     <button id="exit-arcade" style="position: absolute; top: 1rem; left: 1rem;">⬅ Zurück</button>
   </div> -->
-  <div id="arcade-view" style="display: none;">
-    <div id="arcade-menu">
-      <h2>🎮 Wähle ein Spiel</h2>
-      <button class="game-select" data-game="pong">🏓 Pong</button>
-      <button class="game-select" data-game="snake">🐍 Snake</button>
-      <button class="game-select" data-game="invaders">👾 Space Invaders</button>
-      <button id="exit-arcade" style="margin-top: 2rem;">⬅ Zurück</button>
+    <div id="arcade-view" style="display: none">
+      <div id="arcade-menu">
+        <h2>🎮 Wähle ein Spiel</h2>
+        <button class="game-select" data-game="pong">🏓 Pong</button>
+        <button class="game-select" data-game="snake">🐍 Snake</button>
+        <button class="game-select" data-game="invaders">
+          👾 Space Invaders
+        </button>
+        <button id="exit-arcade" style="margin-top: 2rem">⬅ Zurück</button>
+      </div>
+      <canvas
+        id="pong-canvas"
+        width="800"
+        height="500"
+        style="display: none"
+      ></canvas>
     </div>
-    <canvas id="pong-canvas" width="800" height="500" style="display: none;"></canvas>
-  </div>
-  
 
-
-  <script src="src/script.js"></script>
-</body>
+    <script src="src/script.js"></script>
+  </body>
 </html>
-
-
-
-
-
-
-
 
 <!-- Bestenliste-Logik:
 
@@ -177,8 +202,8 @@
           </tr>
         </thead>
         <tbody> -->
-          <!-- Bestenliste wird hier dynamisch eingefügt -->
-        <!-- </tbody>
+<!-- Bestenliste wird hier dynamisch eingefügt -->
+<!-- </tbody>
       </table>
     </div>
   </div> -->

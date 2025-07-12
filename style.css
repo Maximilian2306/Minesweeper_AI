@@ -1,8 +1,9 @@
 /* === Allgemeine Stile === */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
-
 
 /* === Grundlayout === */
 /* body {
@@ -24,8 +25,8 @@ body {
 
   display: grid;
   grid-template-areas:
-    "topbar"
-    "game-container";
+    'topbar'
+    'game-container';
   grid-template-rows: auto 1fr;
   justify-items: center;
   min-height: 100vh;
@@ -47,7 +48,6 @@ body.popup-open {
   padding: 1rem;
   /* box-sizing: border-box; */
 }
-
 
 /* === Navigation oben rechts === */
 .top-bar {
@@ -75,7 +75,6 @@ body.popup-open {
   transition: background-color 0.2s ease-in;
 }
 
-
 /* === Headerlayout === */
 .logo {
   width: 50px;
@@ -101,13 +100,17 @@ body.popup-open {
   box-shadow: 0 0 15px rgb(255, 0, 0);
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.2s ease-out, box-shadow 0.2s ease-out;
+  transition:
+    background-color 0.2s ease-out,
+    box-shadow 0.2s ease-out;
 }
 
 .header-button:hover {
   background-color: #00bff9;
   box-shadow: 0 0 15px rgb(0, 234, 255);
-  transition: background-color 0.3s ease-in, box-shadow 0.3s ease-in;
+  transition:
+    background-color 0.3s ease-in,
+    box-shadow 0.3s ease-in;
 }
 
 .game-header {
@@ -116,7 +119,7 @@ body.popup-open {
   background-color: #333;
   padding: 1rem;
   border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
   justify-content: space-between;
   width: 100%;
   max-width: 360px;
@@ -146,16 +149,17 @@ body.popup-open {
   transition: background-color 0.1s ease-in;
 }
 
-
 /* === Spielfeld (Grid) === */
 .game-board {
   display: grid;
-  grid-template-columns: repeat(10, 30px); /* Spaltenanzahl anpassbar (Normal:10) */
-  grid-template-rows: repeat(10, 30px);    /* Reihenanzahl anpassbar (Normal:10)*/
+  grid-template-columns: repeat(
+    10,
+    30px
+  ); /* Spaltenanzahl anpassbar (Normal:10) */
+  grid-template-rows: repeat(10, 30px); /* Reihenanzahl anpassbar (Normal:10)*/
   gap: 2px;
   border: 3px solid #000000;
 }
-
 
 /* === Zellen === */
 .cell {
@@ -188,14 +192,13 @@ body.popup-open {
   color: white;
 }
 
-
 /* === Leaderboard === */
 .leaderboard {
   margin-top: 2rem;
   padding: 1rem;
   background-color: #333;
   border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
   /* width: 360px; */
   width: 90%;
   max-width: 360px;
@@ -219,7 +222,6 @@ body.popup-open {
   display: flex;
   justify-content: space-between;
 }
-
 
 /* === Popup === */
 .popup {
@@ -246,7 +248,6 @@ body.popup-open {
   text-align: center;
 }
 
-
 /* === Leaderboard Popup === */
 .leaderboard-btn {
   margin-top: 1rem;
@@ -256,15 +257,18 @@ body.popup-open {
   border: 1px solid #000000;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.2s ease-out, box-shadow 0.2s ease-out;
+  transition:
+    background-color 0.2s ease-out,
+    box-shadow 0.2s ease-out;
 }
 
 .leaderboard-btn:hover {
   background-color: #00bff9;
   box-shadow: 0 0 15px rgb(0, 234, 255);
-  transition: background-color 0.3s ease-in, box-shadow 0.3s ease-in;
+  transition:
+    background-color 0.3s ease-in,
+    box-shadow 0.3s ease-in;
 }
-
 
 /* === Start-Modus Button === */
 .mode-btn {
@@ -277,15 +281,18 @@ body.popup-open {
   color: rgb(255, 255, 255);
   cursor: pointer;
   border-radius: 6px;
-  transition: background-color 0.2s ease-out, box-shadow 0.2s easeout;
+  transition:
+    background-color 0.2s ease-out,
+    box-shadow 0.2s easeout;
 }
 
 .mode-btn:hover {
-   background-color: #00bff9;
-   box-shadow: 0 0 15px rgb(0, 234, 255);
-   transition: background-color 0.2s ease-in, box-shadow 0.2s ease-in;
+  background-color: #00bff9;
+  box-shadow: 0 0 15px rgb(0, 234, 255);
+  transition:
+    background-color 0.2s ease-in,
+    box-shadow 0.2s ease-in;
 }
-
 
 /* === KI-Auswahl-Menü === */
 #kiMenu {
@@ -303,7 +310,6 @@ body.popup-open {
   cursor: pointer;
 }
 
-
 /* === MessageBox Lose === */
 .game-over {
   position: fixed;
@@ -315,7 +321,7 @@ body.popup-open {
   padding: 2rem;
   border-radius: 10px;
   text-align: center;
-  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
   z-index: 999;
   display: none;
 }
@@ -328,15 +334,18 @@ body.popup-open {
   border: 1px solid #000000;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.2s ease-out, box-shadow 0.2s ease-out;
+  transition:
+    background-color 0.2s ease-out,
+    box-shadow 0.2s ease-out;
 }
 
 .game-over-btn:hover {
   background-color: #00bff9;
   box-shadow: 0 0 15px rgb(0, 234, 255);
-  transition: background-color 0.3s ease-in, box-shadow 0.3s ease-in;
+  transition:
+    background-color 0.3s ease-in,
+    box-shadow 0.3s ease-in;
 }
-
 
 /* === MessageBox Win === */
 .game-win {
@@ -349,7 +358,7 @@ body.popup-open {
   padding: 2rem;
   border-radius: 10px;
   text-align: center;
-  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
   z-index: 999;
   display: none;
 }
@@ -362,20 +371,18 @@ body.popup-open {
   border: 1px solid #000000;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.2s ease-out, box-shadow 0.2s ease-out;
+  transition:
+    background-color 0.2s ease-out,
+    box-shadow 0.2s ease-out;
 }
 
 .game-win-btn:hover {
   background-color: #00bff9;
   box-shadow: 0 0 15px rgb(0, 234, 255);
-  transition: background-color 0.3s ease-in, box-shadow 0.3s ease-in;
+  transition:
+    background-color 0.3s ease-in,
+    box-shadow 0.3s ease-in;
 }
-
-
-
-
-
-
 
 /* === Spaß Funktion === */
 /* === Arcade Modus === */
@@ -408,7 +415,9 @@ body.popup-open {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.2s ease-out, box-shadow 0.2s ease-out;
+  transition:
+    background-color 0.2s ease-out,
+    box-shadow 0.2s ease-out;
 }
 
 #arcade-menu {
@@ -434,34 +443,13 @@ body.popup-open {
   margin-bottom: 1rem;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* === Responsive Design === */
 @media (max-width: 600px) {
   .game-board {
-    grid-template-columns: repeat(5, 30px); /* Weniger Spalten auf kleineren Bildschirmen */
+    grid-template-columns: repeat(
+      5,
+      30px
+    ); /* Weniger Spalten auf kleineren Bildschirmen */
     grid-template-rows: repeat(5, 30px);
   }
   .game-header {
@@ -481,11 +469,13 @@ body.popup-open {
     width: 100%;
     padding: 1rem;
   }
-  .game-over, .game-win {
+  .game-over,
+  .game-win {
     width: 90%;
     padding: 1rem;
   }
-  .game-over-btn, .game-win-btn {
+  .game-over-btn,
+  .game-win-btn {
     width: 100%;
   }
   .cell {
