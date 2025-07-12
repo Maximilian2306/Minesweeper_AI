@@ -1,4 +1,3 @@
-
 // Erste Claude Lösung
 /*
 // Verbesserte regelbasierte KI Button
@@ -372,41 +371,6 @@ function isValidPosition(x, y) {
 
 
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Erste DeepSeek Lösung
 /*

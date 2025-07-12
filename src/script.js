@@ -1,13 +1,13 @@
-let boardSize = 10;      // Größe des Spielfelds (10x10 Grid)
-let mineCount = 10;      // Anzahl der Minen
-const board = [];        // Spielfeld als 2D-Array
+let boardSize = 10; // Größe des Spielfelds (10x10 Grid)
+let mineCount = 10; // Anzahl der Minen
+const board = []; // Spielfeld als 2D-Array
 let gameOver = false;
 
-let startTime = null;    // Startzeit für den Timer
-let timerInterval = null;   // Timer Intervall
+let startTime = null; // Startzeit für den Timer
+let timerInterval = null; // Timer Intervall
 
-let kiRunning = false;  // Flag, ob die KI aktiv ist
-let kiTimeout = null;   // Timeout für die KI, um sie zu stoppen
+let kiRunning = false; // Flag, ob die KI aktiv ist
+let kiTimeout = null; // Timeout für die KI, um sie zu stoppen
 
 /**
  * Referenzen auf die HTML-Elemente, die für das Spiel benötigt werden.
@@ -19,7 +19,7 @@ const mineCounter = document.getElementById('mine-count'); // Muss im HTML exist
 // Gameboard Element //
 const boardElement = document.getElementById('game-board'); // Muss im HTML existieren!
 // Header Container Element //
-const headerContainer = document.getElementById('header-container'); 
+const headerContainer = document.getElementById('header-container');
 // Leaderboard Elemente //
 const leaderboardKey = 'minesweeper-leaderboard'; // Schlüssel für die Bestenliste im Local Storage
 const leaderboardList = document.getElementById('leaderboard-list'); // Bestenliste
@@ -38,10 +38,10 @@ const startBtn = document.getElementById('start-btn'); // Start Button
 const modeButtons = document.querySelectorAll('.mode-btn'); // Modus-Auswahl Buttons (Anfänger, Mittelmäßig, Fortgeschritten, Profi)
 // KI Buttons //
 const kiButton = document.getElementById('kiActBtn'); // KI Button
-const ruleBasedKIBtn = document.getElementById("startRuleKI"); // Regelbasierte KI Button
-const randomKIBtn = document.getElementById("startRandomKI"); // Zufalls-KI Button
-const kiMenu = document.getElementById("kiMenu"); // KI Menü-Dialog
-const stopBtn = document.getElementById("stopKI"); // Stop-KI Button
+const ruleBasedKIBtn = document.getElementById('startRuleKI'); // Regelbasierte KI Button
+const randomKIBtn = document.getElementById('startRandomKI'); // Zufalls-KI Button
+const kiMenu = document.getElementById('kiMenu'); // KI Menü-Dialog
+const stopBtn = document.getElementById('stopKI'); // Stop-KI Button
 // Restart Button //
 const restartBtn = document.getElementById('restart-btn'); // Restart Button
 // Win or Lose Buttons //
@@ -50,12 +50,11 @@ const msgBoxLoseLBBtn = document.getElementById('game-over-leaderboard-btn'); //
 const msgBoxWinBtn = document.getElementById('game-win-btn'); // Game Win Button
 const msgBoxWinLBBtn = document.getElementById('game-win-leaderboard-btn'); // Game Win Button für die Bestenliste
 // Game Win Name Input Button //
-const msgBoxWinNameInpBtn = document.getElementById('save-nameInp-btn'); // Button zum Speichern des Namens im Game Win Pop-up                                    
+const msgBoxWinNameInpBtn = document.getElementById('save-nameInp-btn'); // Button zum Speichern des Namens im Game Win Pop-up
 // Bestenliste Buttons //
 const openLeaderboardBtn = document.getElementById('open-leaderboard-btn'); // Öffnen Button für die Bestenliste
 const closeLeaderboardBtn = document.getElementById('close-leaderboard-btn'); // Schließen Button für die Bestenliste
 const clearLeaderboardBtn = document.getElementById('clear-leaderboard-btn'); // Bestenliste leeren Button
-
 
 // Pop-up Nachrichtenboxen //
 const settingsPopup = document.getElementById('settings-popup'); // Pop-up für die Einstellungen
@@ -65,7 +64,6 @@ const msgBoxLose = document.getElementById('game-over'); // Pop-up für Game Ove
 const msgBoxWin = document.getElementById('game-win'); // Pop-up für Game Win
 const msgBoxWinNameInp = document.getElementById('game-win-nameInp'); // Pop-up für Game Win mit Name Eingabe
 const leaderboardPopup = document.getElementById('leaderboard-popup'); // Pop-up für die Bestenliste
-
 
 /**
  * Initialisiert die Event-Listener welche beim clicken auf die verschiedenen Buttons bestimmte Funktionen/Aktionen ausführen.
@@ -102,7 +100,7 @@ closeAboutBtn.addEventListener('click', () => {
 });
 
 // Modusauswahl-Buttons
-modeButtons.forEach(button => {
+modeButtons.forEach((button) => {
   button.addEventListener('click', () => {
     boardSize = parseInt(button.getAttribute('data-size'));
     mineCount = parseInt(button.getAttribute('data-mines'));
@@ -115,32 +113,31 @@ modeButtons.forEach(button => {
     document.body.classList.remove('popup-open');
     kiRunning = false; // Stoppe die KI, wenn ein neuer Spiel-Modus gewählt wird
     stopBtn.style.display = 'none'; // Verstecke den Stop-KI Button
-    kiMenu.style.display = "none"; // Verstecke das KI-Menü
-    headerContainer.style.maxWidth = "360px"; // Header zurücksetzen
+    kiMenu.style.display = 'none'; // Verstecke das KI-Menü
+    headerContainer.style.maxWidth = '360px'; // Header zurücksetzen
     init(); // Spiel starten mit neuem Modus
   });
 });
 
-
 // "KI aktivieren" Button
-kiButton.addEventListener("click", (e) => {
-  if (kiMenu.style.display === "none") {
+kiButton.addEventListener('click', (e) => {
+  if (kiMenu.style.display === 'none') {
     // Menü direkt neben dem Button positionieren
     const rect = kiButton.getBoundingClientRect();
-    kiMenu.style.left = rect.left + "px";
-    kiMenu.style.top = (rect.bottom + window.scrollY) + "px";
-    kiMenu.style.display = "block";
+    kiMenu.style.left = rect.left + 'px';
+    kiMenu.style.top = rect.bottom + window.scrollY + 'px';
+    kiMenu.style.display = 'block';
   } else {
-    kiMenu.style.display = "none";
+    kiMenu.style.display = 'none';
   }
 });
 
 // "Stop KI" Button
-stopBtn.addEventListener("click", () => {
+stopBtn.addEventListener('click', () => {
   kiRunning = false;
-  stopBtn.style.display = "none"; // Verstecke den Stop-KI Button
-  headerContainer.style.maxWidth = "360px"; // Header zurücksetzen
-  kiMenu.style.display = "none" ; // Verstecke das KI-Menü
+  stopBtn.style.display = 'none'; // Verstecke den Stop-KI Button
+  headerContainer.style.maxWidth = '360px'; // Header zurücksetzen
+  kiMenu.style.display = 'none'; // Verstecke das KI-Menü
   clearTimeout(kiTimeout);
 });
 
@@ -151,7 +148,7 @@ stopBtn.addEventListener("click", () => {
 //   headerContainer.style.maxWidth = "460px"; // Erweitere den Header für die KI
 
 //   if (kiRunning) return; // Verhindere mehrfaches Starten der KI
-//   kiRunning = true; 
+//   kiRunning = true;
 
 //   while (kiRunning) {
 //     await sleep(100); // kleine Pause für realistischere "Denkzeit"
@@ -172,7 +169,7 @@ stopBtn.addEventListener("click", () => {
 //       }
 //     }
 
-//     if (unrevealedCells.length === 0) { 
+//     if (unrevealedCells.length === 0) {
 //       kiRunning = false;
 //       stopBtn.style.display = "none"; // Verstecke den Stop-KI Button
 //       headerContainer.style.maxWidth = "360px"; // Header zurücksetzen
@@ -184,10 +181,10 @@ stopBtn.addEventListener("click", () => {
 //   }
 // });
 
-randomKIBtn.addEventListener("click", async () => {
-  kiMenu.style.display = "none";
-  stopBtn.style.display = "inline-block";
-  headerContainer.style.maxWidth = "460px";
+randomKIBtn.addEventListener('click', async () => {
+  kiMenu.style.display = 'none';
+  stopBtn.style.display = 'inline-block';
+  headerContainer.style.maxWidth = '460px';
 
   if (kiRunning) return;
   kiRunning = true;
@@ -206,7 +203,10 @@ randomKIBtn.addEventListener("click", async () => {
   // Mische die Zellen (Fisher-Yates Shuffle)
   for (let i = unrevealedCells.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [unrevealedCells[i], unrevealedCells[j]] = [unrevealedCells[j], unrevealedCells[i]];
+    [unrevealedCells[i], unrevealedCells[j]] = [
+      unrevealedCells[j],
+      unrevealedCells[i],
+    ];
   }
 
   let i = 0;
@@ -232,7 +232,10 @@ randomKIBtn.addEventListener("click", async () => {
       // Liste neu mischen
       for (let i = unrevealedCells.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [unrevealedCells[i], unrevealedCells[j]] = [unrevealedCells[j], unrevealedCells[i]];
+        [unrevealedCells[i], unrevealedCells[j]] = [
+          unrevealedCells[j],
+          unrevealedCells[i],
+        ];
       }
 
       i = 0;
@@ -250,10 +253,8 @@ randomKIBtn.addEventListener("click", async () => {
 
 // Hilfsfunktion für Verzögerung (Warte Funktion)
 function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
-
-
 
 // Regelbasierte KI Button
 // ruleBasedKIBtn.addEventListener("click", async () => {
@@ -320,16 +321,13 @@ function sleep(ms) {
 //   }
 // });
 
-
-
-
 // Regelbasierte KI Button
-ruleBasedKIBtn.addEventListener("click", async () => {
+ruleBasedKIBtn.addEventListener('click', async () => {
   if (gameOver || kiRunning) return;
 
-  kiMenu.style.display = "none";
-  stopBtn.style.display = "inline-block";
-  headerContainer.style.maxWidth = "460px";
+  kiMenu.style.display = 'none';
+  stopBtn.style.display = 'inline-block';
+  headerContainer.style.maxWidth = '460px';
   kiRunning = true;
 
   while (kiRunning) {
@@ -346,7 +344,7 @@ ruleBasedKIBtn.addEventListener("click", async () => {
     // First pass: Apply basic rules
     changed = await applyBasicRules();
 
-     // Second pass: Check for 1-1 patterns
+    // Second pass: Check for 1-1 patterns
     if (!changed) {
       changed = await check1_1Pattern();
     }
@@ -383,8 +381,8 @@ ruleBasedKIBtn.addEventListener("click", async () => {
           changed = true;
         } else {
           kiRunning = false;
-          stopBtn.style.display = "none";
-          headerContainer.style.maxWidth = "360px";
+          stopBtn.style.display = 'none';
+          headerContainer.style.maxWidth = '360px';
           break;
         }
       }
@@ -394,15 +392,15 @@ ruleBasedKIBtn.addEventListener("click", async () => {
 
 async function applyBasicRules() {
   let changed = false;
-  
+
   for (let y = 0; y < boardSize; y++) {
     for (let x = 0; x < boardSize; x++) {
       const cell = board[y][x];
       if (!cell.revealed || cell.number === 0) continue;
 
       const neighbors = getNeighbors(x, y);
-      const flagged = neighbors.filter(n => n.flagged).length;
-      const hidden = neighbors.filter(n => !n.revealed && !n.flagged);
+      const flagged = neighbors.filter((n) => n.flagged).length;
+      const hidden = neighbors.filter((n) => !n.revealed && !n.flagged);
 
       // Rule 1: If flagged count equals cell number, reveal remaining hidden neighbors
       if (flagged === cell.number && hidden.length > 0) {
@@ -415,7 +413,7 @@ async function applyBasicRules() {
       }
 
       // Rule 2: If hidden count equals remaining mines, flag all hidden
-      if (hidden.length > 0 && hidden.length === (cell.number - flagged)) {
+      if (hidden.length > 0 && hidden.length === cell.number - flagged) {
         for (const n of hidden) {
           if (!n.flagged) {
             handleRightClick(n.x, n.y);
@@ -426,35 +424,38 @@ async function applyBasicRules() {
       }
     }
   }
-  
+
   return changed;
 }
 
 async function check1_1Pattern() {
   let changed = false;
-  
+
   for (let y = 0; y < boardSize; y++) {
     for (let x = 0; x < boardSize; x++) {
       const cell = board[y][x];
       if (!cell.revealed || cell.number !== 1) continue;
-      
+
       const neighbors = getNeighbors(x, y);
-      const hidden = neighbors.filter(n => !n.revealed && !n.flagged);
-      
+      const hidden = neighbors.filter((n) => !n.revealed && !n.flagged);
+
       if (hidden.length !== 2) continue;
-      
+
       // Check if this cell shares one hidden neighbor with another '1' cell
       for (const n of neighbors) {
         if (n.revealed && n.number === 1) {
           const sharedNeighbors = getNeighbors(n.x, n.y);
-          const sharedHidden = sharedNeighbors.filter(sn => !sn.revealed && !sn.flagged);
-          
+          const sharedHidden = sharedNeighbors.filter(
+            (sn) => !sn.revealed && !sn.flagged
+          );
+
           if (sharedHidden.length === 2) {
-            const sharedCell = hidden.find(h => sharedHidden.includes(h));
+            const sharedCell = hidden.find((h) => sharedHidden.includes(h));
             if (sharedCell) {
               // The non-shared cell must be safe
-              const safeCell = hidden.find(h => h !== sharedCell) || 
-                             sharedHidden.find(sh => sh !== sharedCell);
+              const safeCell =
+                hidden.find((h) => h !== sharedCell) ||
+                sharedHidden.find((sh) => sh !== sharedCell);
               if (safeCell && !safeCell.flagged) {
                 handleLeftClick(safeCell.x, safeCell.y);
                 changed = true;
@@ -467,45 +468,57 @@ async function check1_1Pattern() {
       }
     }
   }
-  
+
   return changed;
 }
 
 async function check1_2_1Pattern() {
   let changed = false;
-  
+
   // Check for horizontal 1-2-1 pattern
   for (let y = 0; y < boardSize; y++) {
     for (let x = 1; x < boardSize - 2; x++) {
       const leftCell = board[y][x];
-      const middleCell = board[y][x+1];
-      const rightCell = board[y][x+2];
-      
-      if (!leftCell.revealed || !middleCell.revealed || !rightCell.revealed) continue;
-      if (leftCell.number !== 1 || middleCell.number !== 2 || rightCell.number !== 1) continue;
-      
+      const middleCell = board[y][x + 1];
+      const rightCell = board[y][x + 2];
+
+      if (!leftCell.revealed || !middleCell.revealed || !rightCell.revealed)
+        continue;
+      if (
+        leftCell.number !== 1 ||
+        middleCell.number !== 2 ||
+        rightCell.number !== 1
+      )
+        continue;
+
       // Get the three hidden cells above and below this pattern
       const topCells = [
-        y > 0 ? board[y-1][x] : null,
-        y > 0 ? board[y-1][x+1] : null,
-        y > 0 ? board[y-1][x+2] : null
-      ].filter(c => c && !c.revealed && !c.flagged);
-      
+        y > 0 ? board[y - 1][x] : null,
+        y > 0 ? board[y - 1][x + 1] : null,
+        y > 0 ? board[y - 1][x + 2] : null,
+      ].filter((c) => c && !c.revealed && !c.flagged);
+
       const bottomCells = [
-        y < boardSize-1 ? board[y+1][x] : null,
-        y < boardSize-1 ? board[y+1][x+1] : null,
-        y < boardSize-1 ? board[y+1][x+2] : null
-      ].filter(c => c && !c.revealed && !c.flagged);
-      
+        y < boardSize - 1 ? board[y + 1][x] : null,
+        y < boardSize - 1 ? board[y + 1][x + 1] : null,
+        y < boardSize - 1 ? board[y + 1][x + 2] : null,
+      ].filter((c) => c && !c.revealed && !c.flagged);
+
       // In a 1-2-1 pattern, the middle cell of the opposite side is safe
       if (topCells.length === 3 && bottomCells.length === 3) {
         // Check which side has the mines
-        const leftHidden = getNeighbors(x, y).filter(n => !n.revealed && !n.flagged);
-        const rightHidden = getNeighbors(x+2, y).filter(n => !n.revealed && !n.flagged);
-        
+        const leftHidden = getNeighbors(x, y).filter(
+          (n) => !n.revealed && !n.flagged
+        );
+        const rightHidden = getNeighbors(x + 2, y).filter(
+          (n) => !n.revealed && !n.flagged
+        );
+
         if (leftHidden.length === 2 && rightHidden.length === 2) {
           // The center cell on the opposite side is safe
-          const safeCell = board[y+1] ? board[y+1][x+1] : board[y-1][x+1];
+          const safeCell = board[y + 1]
+            ? board[y + 1][x + 1]
+            : board[y - 1][x + 1];
           if (safeCell && !safeCell.revealed && !safeCell.flagged) {
             handleLeftClick(safeCell.x, safeCell.y);
             changed = true;
@@ -516,38 +529,48 @@ async function check1_2_1Pattern() {
       }
     }
   }
-  
+
   // Check for vertical 1-2-1 pattern (same logic but vertical)
   for (let y = 1; y < boardSize - 2; y++) {
     for (let x = 0; x < boardSize; x++) {
       const topCell = board[y][x];
-      const middleCell = board[y+1][x];
-      const bottomCell = board[y+2][x];
-      
-      if (!topCell.revealed || !middleCell.revealed || !bottomCell.revealed) continue;
-      if (topCell.number !== 1 || middleCell.number !== 2 || bottomCell.number !== 1) continue;
-      
+      const middleCell = board[y + 1][x];
+      const bottomCell = board[y + 2][x];
+
+      if (!topCell.revealed || !middleCell.revealed || !bottomCell.revealed)
+        continue;
+      if (
+        topCell.number !== 1 ||
+        middleCell.number !== 2 ||
+        bottomCell.number !== 1
+      )
+        continue;
+
       // Get the three hidden cells left and right of this pattern
       const leftCells = [
-        x > 0 ? board[y][x-1] : null,
-        x > 0 ? board[y+1][x-1] : null,
-        x > 0 ? board[y+2][x-1] : null
-      ].filter(c => c && !c.revealed && !c.flagged);
-      
+        x > 0 ? board[y][x - 1] : null,
+        x > 0 ? board[y + 1][x - 1] : null,
+        x > 0 ? board[y + 2][x - 1] : null,
+      ].filter((c) => c && !c.revealed && !c.flagged);
+
       const rightCells = [
-        x < boardSize-1 ? board[y][x+1] : null,
-        x < boardSize-1 ? board[y+1][x+1] : null,
-        x < boardSize-1 ? board[y+2][x+1] : null
-      ].filter(c => c && !c.revealed && !c.flagged);
-      
+        x < boardSize - 1 ? board[y][x + 1] : null,
+        x < boardSize - 1 ? board[y + 1][x + 1] : null,
+        x < boardSize - 1 ? board[y + 2][x + 1] : null,
+      ].filter((c) => c && !c.revealed && !c.flagged);
+
       if (leftCells.length === 3 && rightCells.length === 3) {
         // Check which side has the mines
-        const topHidden = getNeighbors(x, y).filter(n => !n.revealed && !n.flagged);
-        const bottomHidden = getNeighbors(x, y+2).filter(n => !n.revealed && !n.flagged);
-        
+        const topHidden = getNeighbors(x, y).filter(
+          (n) => !n.revealed && !n.flagged
+        );
+        const bottomHidden = getNeighbors(x, y + 2).filter(
+          (n) => !n.revealed && !n.flagged
+        );
+
         if (topHidden.length === 2 && bottomHidden.length === 2) {
           // The center cell on the opposite side is safe
-          const safeCell = board[y+1][x+1] || board[y+1][x-1];
+          const safeCell = board[y + 1][x + 1] || board[y + 1][x - 1];
           if (safeCell && !safeCell.revealed && !safeCell.flagged) {
             handleLeftClick(safeCell.x, safeCell.y);
             changed = true;
@@ -558,35 +581,41 @@ async function check1_2_1Pattern() {
       }
     }
   }
-  
+
   return changed;
 }
 
 async function checkAdvancedPatterns() {
   let changed = false;
-  
+
   // Pattern 1: 1-1 pattern (common minesweeper pattern)
   for (let y = 0; y < boardSize; y++) {
     for (let x = 0; x < boardSize; x++) {
       const cell = board[y][x];
       if (!cell.revealed || cell.number !== 1) continue;
-      
+
       const neighbors = getNeighbors(x, y);
-      const hidden = neighbors.filter(n => !n.revealed && !n.flagged);
-      
+      const hidden = neighbors.filter((n) => !n.revealed && !n.flagged);
+
       if (hidden.length !== 2) continue;
-      
+
       // Check if this cell shares one hidden neighbor with another '1' cell
       for (const n of neighbors) {
         if (n.revealed && n.number === 1) {
           const sharedNeighbors = getNeighbors(n.x, n.y);
-          const sharedHidden = sharedNeighbors.filter(sn => !sn.revealed && !sn.flagged);
-          
-          if (sharedHidden.length === 2 && 
-              (sharedHidden[0] === hidden[0] || sharedHidden[0] === hidden[1] || 
-               sharedHidden[1] === hidden[0] || sharedHidden[1] === hidden[1])) {
+          const sharedHidden = sharedNeighbors.filter(
+            (sn) => !sn.revealed && !sn.flagged
+          );
+
+          if (
+            sharedHidden.length === 2 &&
+            (sharedHidden[0] === hidden[0] ||
+              sharedHidden[0] === hidden[1] ||
+              sharedHidden[1] === hidden[0] ||
+              sharedHidden[1] === hidden[1])
+          ) {
             // The non-shared cell must be safe
-            const safeCell = sharedHidden.find(sn => !hidden.includes(sn));
+            const safeCell = sharedHidden.find((sn) => !hidden.includes(sn));
             if (safeCell) {
               handleLeftClick(safeCell.x, safeCell.y);
               changed = true;
@@ -598,7 +627,7 @@ async function checkAdvancedPatterns() {
       }
     }
   }
-  
+
   return changed;
 }
 
@@ -608,33 +637,38 @@ function findSafeGuess() {
     for (let x = 0; x < boardSize; x++) {
       const cell = board[y][x];
       if (cell.revealed || cell.flagged) continue;
-      
+
       const neighbors = getNeighbors(x, y);
-      const revealedNeighbors = neighbors.filter(n => n.revealed);
-      
+      const revealedNeighbors = neighbors.filter((n) => n.revealed);
+
       // If all revealed neighbors are 0, it's safe
-      if (revealedNeighbors.length > 0 && revealedNeighbors.every(n => n.number === 0)) {
+      if (
+        revealedNeighbors.length > 0 &&
+        revealedNeighbors.every((n) => n.number === 0)
+      ) {
         return cell;
       }
     }
   }
-  
+
   return null;
 }
 
 function pickBestUnrevealed() {
   let bestCell = null;
   let lowestProbability = 1;
-  
+
   // Calculate mine probability for each unrevealed cell
   for (let y = 0; y < boardSize; y++) {
     for (let x = 0; x < boardSize; x++) {
       const cell = board[y][x];
       if (cell.revealed || cell.flagged) continue;
-      
+
       const neighbors = getNeighbors(x, y);
-      const revealedNeighbors = neighbors.filter(n => n.revealed && n.number > 0);
-      
+      const revealedNeighbors = neighbors.filter(
+        (n) => n.revealed && n.number > 0
+      );
+
       if (revealedNeighbors.length === 0) {
         // No information, return this cell if we haven't found anything better
         if (!bestCell) {
@@ -642,61 +676,38 @@ function pickBestUnrevealed() {
         }
         continue;
       }
-      
+
       // Calculate probability based on neighboring numbers
       let totalPossibleMines = 0;
       let totalConstraints = 0;
-      
+
       for (const n of revealedNeighbors) {
         const nNeighbors = getNeighbors(n.x, n.y);
-        const hiddenAroundN = nNeighbors.filter(nn => !nn.revealed && !nn.flagged);
-        const flaggedAroundN = nNeighbors.filter(nn => nn.flagged).length;
+        const hiddenAroundN = nNeighbors.filter(
+          (nn) => !nn.revealed && !nn.flagged
+        );
+        const flaggedAroundN = nNeighbors.filter((nn) => nn.flagged).length;
         const remainingMines = n.number - flaggedAroundN;
-        
+
         if (hiddenAroundN.length > 0) {
           totalPossibleMines += remainingMines;
           totalConstraints += hiddenAroundN.length;
         }
       }
-      
-      const probability = totalConstraints > 0 ? totalPossibleMines / totalConstraints : 0;
-      
+
+      const probability =
+        totalConstraints > 0 ? totalPossibleMines / totalConstraints : 0;
+
       if (probability < lowestProbability) {
         lowestProbability = probability;
         bestCell = cell;
       }
     }
   }
-  
+
   return bestCell;
 }
 // Ende der regelbasierten KI
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Hilfsfunktion: Nachbarn eines Feldes finden
 function getNeighbors(x, y) {
@@ -734,16 +745,13 @@ function pickRandomUnrevealed() {
   return list[Math.floor(Math.random() * list.length)];
 }
 
-
-
-
 // Restart-Button //
 restartBtn.addEventListener('click', () => {
   init();
   kiRunning = false; // Stoppe die KI, wenn das Spiel neu gestartet wird
   stopBtn.style.display = 'none'; // Verstecke den Stop-KI Button
-  kiMenu.style.display = "none"; // Verstecke das KI-Menü
-  headerContainer.style.maxWidth = "360px"; // Header zurücksetzen
+  kiMenu.style.display = 'none'; // Verstecke das KI-Menü
+  headerContainer.style.maxWidth = '360px'; // Header zurücksetzen
 });
 msgBoxLoseBtn.addEventListener('click', init);
 msgBoxWinBtn.addEventListener('click', init);
@@ -767,8 +775,8 @@ openLeaderboardBtn.addEventListener('click', () => {
   renderLeaderboard();
   kiRunning = false; // Stoppe die KI, wenn das Leaderboard geöffnet wird
   stopBtn.style.display = 'none'; // Verstecke den Stop-KI Button
-  kiMenu.style.display = "none"; // Verstecke das KI-Menü
-  headerContainer.style.maxWidth = "360px"; // Header zurücksetzen
+  kiMenu.style.display = 'none'; // Verstecke das KI-Menü
+  headerContainer.style.maxWidth = '360px'; // Header zurücksetzen
   leaderboardPopup.style.display = 'flex';
   document.body.classList.add('popup-open');
 });
@@ -782,15 +790,15 @@ closeLeaderboardBtn.addEventListener('click', () => {
 // Leeren des Leaderboards Cache
 clearLeaderboardBtn.addEventListener('click', () => {
   if (localStorage.getItem(leaderboardKey) === null) {
-    alert("Die Bestenliste ist bereits leer.");
+    alert('Die Bestenliste ist bereits leer.');
     return;
   } else {
-    if (confirm("Bist du sicher, dass du die Bestenliste löschen willst?")) {
+    if (confirm('Bist du sicher, dass du die Bestenliste löschen willst?')) {
       localStorage.removeItem(leaderboardKey);
       renderLeaderboard();
     }
   }
-});   
+});
 
 // Speichern des Namens im Game Win Pop-up
 msgBoxWinNameInpBtn.addEventListener('click', () => {
@@ -829,7 +837,7 @@ function generateBoard() {
         mine: false,
         revealed: false,
         flagged: false,
-        number: 0
+        number: 0,
       };
     }
   }
@@ -911,16 +919,16 @@ function handleLeftClick(x, y) {
   }
 
   if (checkWin()) {
-
-    if (kiRunning) { // Wenn KI läuft, stoppe sie
-      stopBtn.style.display = "none"; // Verstecke den Stop-KI Button
-      kiMenu.style.display = "none"; // Verstecke das KI-Menü
-      headerContainer.style.maxWidth = "360px"; // Header zurücksetzen
+    if (kiRunning) {
+      // Wenn KI läuft, stoppe sie
+      stopBtn.style.display = 'none'; // Verstecke den Stop-KI Button
+      kiMenu.style.display = 'none'; // Verstecke das KI-Menü
+      headerContainer.style.maxWidth = '360px'; // Header zurücksetzen
       kiRunning = false; // Setze KI-Status zurück
     }
 
     revealAllMines();
-    showWinMessage(); 
+    showWinMessage();
 
     gameOver = true;
     clearInterval(timerInterval);
@@ -1000,19 +1008,21 @@ function showWinMessage() {
 function updateTimer() {
   const now = Date.now();
   const elapsedSeconds = Math.floor((now - startTime) / 1000);
-  const minutes = Math.floor(elapsedSeconds / 60).toString().padStart(2, '0');
+  const minutes = Math.floor(elapsedSeconds / 60)
+    .toString()
+    .padStart(2, '0');
   const seconds = (elapsedSeconds % 60).toString().padStart(2, '0');
   timerDisplay.textContent = `${minutes}:${seconds}`;
 }
 
 // Siegerergebnis speichern
-async function saveWinToLeaderboard (timeInSeconds) {
+async function saveWinToLeaderboard(timeInSeconds) {
   msgBoxWinNameInp.style.display = 'block'; // Zeige das Eingabefeld für den Namen
 
-  await new Promise(resolve => {
-    msgBoxWinNameInpBtn.onclick = () => { 
+  await new Promise((resolve) => {
+    msgBoxWinNameInpBtn.onclick = () => {
       resolve();
-    }
+    };
   });
 
   const playerName = document.getElementById('nameInp');
@@ -1022,8 +1032,8 @@ async function saveWinToLeaderboard (timeInSeconds) {
   // if (!playerName) return;
 
   const newEntry = {
-    name: hh,
-    time: timeInSeconds
+    name: playerName,
+    time: timeInSeconds,
   };
 
   let leaderboard = JSON.parse(localStorage.getItem(leaderboardKey)) || [];
@@ -1043,7 +1053,7 @@ async function saveWinToLeaderboard (timeInSeconds) {
 function renderLeaderboard() {
   const leaderboard = JSON.parse(localStorage.getItem(leaderboardKey)) || [];
 
-    // Normales Board
+  // Normales Board
   leaderboardList.innerHTML = '';
   // Popup-Board
   leaderboardListPopup.innerHTML = '';
@@ -1054,7 +1064,7 @@ function renderLeaderboard() {
     return;
   }
 
-  leaderboard.forEach(entry => {
+  leaderboard.forEach((entry) => {
     const listItem1 = document.createElement('li');
     const listItem2 = document.createElement('li');
 
@@ -1062,7 +1072,7 @@ function renderLeaderboard() {
 
     listItem1.innerHTML = `<span>${entry.name}</span><span>${timeStamp}</span>`;
     listItem2.innerHTML = `<span>${entry.name}</span><span>${timeStamp}</span>`;
-    
+
     leaderboardList.appendChild(listItem1);
     leaderboardListPopup.appendChild(listItem2);
   });
@@ -1070,103 +1080,86 @@ function renderLeaderboard() {
 
 // Sekunden in mm:ss umwandeln
 function formatTime(seconds) {
-  const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+  const mins = Math.floor(seconds / 60)
+    .toString()
+    .padStart(2, '0');
   const secs = (seconds % 60).toString().padStart(2, '0');
   return `${mins}:${secs}`;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // --- Arcade-Spiel: Pong ---
 // Spaß-Funktion: Arcade-Spiel (Pong)
-const arcadeBtn = document.getElementById("arcade-btn");
-const arcadeView = document.getElementById("arcade-view");
-const exitArcade = document.getElementById("exit-arcade");
-const arcadeMenu = document.getElementById("arcade-menu");
-const canvas = document.getElementById("pong-canvas");
-const ctx = canvas.getContext("2d");
-const gameButtons = document.querySelectorAll(".game-select");
+const arcadeBtn = document.getElementById('arcade-btn');
+const arcadeView = document.getElementById('arcade-view');
+const exitArcade = document.getElementById('exit-arcade');
+const arcadeMenu = document.getElementById('arcade-menu');
+const canvas = document.getElementById('pong-canvas');
+const ctx = canvas.getContext('2d');
+const gameButtons = document.querySelectorAll('.game-select');
 
 let animationId = null;
 let currentGame = null;
 
-arcadeBtn.addEventListener("click", () => {
-  document.body.style.overflow = "hidden";
-  document.querySelector(".game-container").style.display = "none";
-  arcadeView.style.display = "flex";
-  arcadeMenu.style.display = "flex";
-  canvas.style.display = "none";
+arcadeBtn.addEventListener('click', () => {
+  document.body.style.overflow = 'hidden';
+  document.querySelector('.game-container').style.display = 'none';
+  arcadeView.style.display = 'flex';
+  arcadeMenu.style.display = 'flex';
+  canvas.style.display = 'none';
 });
 
-exitArcade.addEventListener("click", () => {
-  arcadeView.style.display = "none";
-  document.querySelector(".game-container").style.display = "grid";
-  document.body.style.overflow = "auto";
+exitArcade.addEventListener('click', () => {
+  arcadeView.style.display = 'none';
+  document.querySelector('.game-container').style.display = 'grid';
+  document.body.style.overflow = 'auto';
   cancelAnimationFrame(animationId);
   resetCanvas();
 });
 
-gameButtons.forEach(button => {
-  button.addEventListener("click", () => {
+gameButtons.forEach((button) => {
+  button.addEventListener('click', () => {
     currentGame = button.dataset.game;
-    arcadeMenu.style.display = "none";
-    canvas.style.display = "block";
+    arcadeMenu.style.display = 'none';
+    canvas.style.display = 'block';
 
-    if (currentGame === "pong") startPong();
-    else if (currentGame === "snake") startSnake();
-    else if (currentGame === "invaders") startInvaders();
+    if (currentGame === 'pong') startPong();
+    else if (currentGame === 'snake') startSnake();
+    else if (currentGame === 'invaders') startInvaders();
   });
 });
 
 function resetCanvas() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  canvas.style.display = "none";
-  arcadeMenu.style.display = "flex";
+  canvas.style.display = 'none';
+  arcadeMenu.style.display = 'flex';
 }
 
-
 // --- Simple Pong Game ---
-  let paddleHeight = 100, paddleWidth = 10;
-  let leftY = 200, rightY = 200;
-  let ballX = 400, ballY = 250, ballSpeedX = 4, ballSpeedY = 4;
+let paddleHeight = 100,
+  paddleWidth = 10;
+let leftY = 200,
+  rightY = 200;
+let ballX = 400,
+  ballY = 250,
+  ballSpeedX = 4,
+  ballSpeedY = 4;
 
-  const keys = {};
-  document.addEventListener("keydown", e => keys[e.key] = true);
-  document.addEventListener("keyup", e => keys[e.key] = false);
+const keys = {};
+document.addEventListener('keydown', (e) => (keys[e.key] = true));
+document.addEventListener('keyup', (e) => (keys[e.key] = false));
 
-  canvas.width = 800; // Setze die Breite des Canvas
-  canvas.height = 500; // Setze die Größe des Canvas
+canvas.width = 800; // Setze die Breite des Canvas
+canvas.height = 500; // Setze die Größe des Canvas
 // Startet das Pong-Spiel
 function startPong() {
   // Movement
-  if (keys["w"]) leftY -= 5;
-  if (keys["s"]) leftY += 5;
-  if (keys["ArrowUp"]) rightY -= 5;
-  if (keys["ArrowDown"]) rightY += 5;
-  if (keys["Escape"]) { return resetCanvas(); }
+  if (keys['w']) leftY -= 5;
+  if (keys['s']) leftY += 5;
+  if (keys['ArrowUp']) rightY -= 5;
+  if (keys['ArrowDown']) rightY += 5;
+  if (keys['Escape']) {
+    return resetCanvas();
+  }
 
   // Ball movement
   ballX += ballSpeedX;
@@ -1176,15 +1169,15 @@ function startPong() {
   if (ballY <= 0 || ballY >= canvas.height) ballSpeedY *= -1;
 
   // Paddle bounce
-  if (
-    ballX <= paddleWidth &&
-    ballY > leftY && ballY < leftY + paddleHeight
-  ) ballSpeedX *= -1;
+  if (ballX <= paddleWidth && ballY > leftY && ballY < leftY + paddleHeight)
+    ballSpeedX *= -1;
 
   if (
     ballX >= canvas.width - paddleWidth &&
-    ballY > rightY && ballY < rightY + paddleHeight
-  ) ballSpeedX *= -1;
+    ballY > rightY &&
+    ballY < rightY + paddleHeight
+  )
+    ballSpeedX *= -1;
 
   // Reset ball if out
   if (ballX < 0 || ballX > canvas.width) {
@@ -1197,7 +1190,7 @@ function startPong() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Paddles
-  ctx.fillStyle = "white";
+  ctx.fillStyle = 'white';
   ctx.fillRect(0, leftY, paddleWidth, paddleHeight);
   ctx.fillRect(canvas.width - paddleWidth, rightY, paddleWidth, paddleHeight);
 
@@ -1214,25 +1207,40 @@ function startPong() {
 function startSnake() {
   let snake = [{ x: 10, y: 10 }];
   let food = { x: 15, y: 15 };
-  let dx = 1, dy = 0;
+  let dx = 1,
+    dy = 0;
   let gridSize = 20;
 
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowUp" && dy === 0) { dx = 0; dy = -1; }
-    if (e.key === "ArrowDown" && dy === 0) { dx = 0; dy = 1; }
-    if (e.key === "ArrowLeft" && dx === 0) { dx = -1; dy = 0; }
-    if (e.key === "ArrowRight" && dx === 0) { dx = 1; dy = 0; }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowUp' && dy === 0) {
+      dx = 0;
+      dy = -1;
+    }
+    if (e.key === 'ArrowDown' && dy === 0) {
+      dx = 0;
+      dy = 1;
+    }
+    if (e.key === 'ArrowLeft' && dx === 0) {
+      dx = -1;
+      dy = 0;
+    }
+    if (e.key === 'ArrowRight' && dx === 0) {
+      dx = 1;
+      dy = 0;
+    }
   });
 
   function loop() {
     const head = { x: snake[0].x + dx, y: snake[0].y + dy };
 
     if (
-      head.x < 0 || head.x >= canvas.width / gridSize ||
-      head.y < 0 || head.y >= canvas.height / gridSize ||
-      snake.some(s => s.x === head.x && s.y === head.y)
+      head.x < 0 ||
+      head.x >= canvas.width / gridSize ||
+      head.y < 0 ||
+      head.y >= canvas.height / gridSize ||
+      snake.some((s) => s.x === head.x && s.y === head.y)
     ) {
-      return alert("💀 Snake Game Over!"), resetCanvas();
+      return (alert('💀 Snake Game Over!'), resetCanvas());
     }
 
     snake.unshift(head);
@@ -1240,73 +1248,80 @@ function startSnake() {
     if (head.x === food.x && head.y === food.y) {
       food = {
         x: Math.floor(Math.random() * (canvas.width / gridSize)),
-        y: Math.floor(Math.random() * (canvas.height / gridSize))
+        y: Math.floor(Math.random() * (canvas.height / gridSize)),
       };
     } else {
       snake.pop();
     }
 
-    ctx.fillStyle = "black";
+    ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "lime";
-    snake.forEach(s => ctx.fillRect(s.x * gridSize, s.y * gridSize, gridSize - 1, gridSize - 1));
+    ctx.fillStyle = 'lime';
+    snake.forEach((s) =>
+      ctx.fillRect(s.x * gridSize, s.y * gridSize, gridSize - 1, gridSize - 1)
+    );
 
-    ctx.fillStyle = "red";
-    ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 1, gridSize - 1);
+    ctx.fillStyle = 'red';
+    ctx.fillRect(
+      food.x * gridSize,
+      food.y * gridSize,
+      gridSize - 1,
+      gridSize - 1
+    );
 
     // animationId = requestAnimationFrame(loop);
     setTimeout(loop, 50); // Hier die Geschwindigkeit kontrollieren
   }
 
   loop();
-
 }
 // --- Ende des Snake-Spiels ---
 
 // --- Space Invaders Game ---
 function startInvaders() {
-
   let playerX = canvas.width / 2;
   let bullets = [];
   let invaders = Array.from({ length: 5 }, (_, i) => ({
     x: i * 100 + 50,
-    y: 50
+    y: 50,
   }));
 
-  document.addEventListener("keydown", e => {
-    if (e.key === "ArrowLeft") playerX -= 15;
-    if (e.key === "ArrowRight") playerX += 15;
-    if (e.key === " " || e.key === "Spacebar") {
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') playerX -= 15;
+    if (e.key === 'ArrowRight') playerX += 15;
+    if (e.key === ' ' || e.key === 'Spacebar') {
       bullets.push({ x: playerX + 15, y: canvas.height - 30 });
     }
   });
 
   function loop() {
-    ctx.fillStyle = "black";
+    ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // Draw player
-    ctx.fillStyle = "white";
+    ctx.fillStyle = 'white';
     ctx.fillRect(playerX, canvas.height - 20, 30, 10);
 
     // Bullets
-    ctx.fillStyle = "yellow";
-    bullets.forEach(b => {
+    ctx.fillStyle = 'yellow';
+    bullets.forEach((b) => {
       b.y -= 5;
       ctx.fillRect(b.x, b.y, 3, 10);
     });
 
     // Invaders
-    ctx.fillStyle = "lime";
-    invaders.forEach(inv => ctx.fillRect(inv.x, inv.y, 30, 20));
+    ctx.fillStyle = 'lime';
+    invaders.forEach((inv) => ctx.fillRect(inv.x, inv.y, 30, 20));
 
     // Collision
     bullets.forEach((b, i) => {
       invaders.forEach((inv, j) => {
         if (
-          b.x > inv.x && b.x < inv.x + 30 &&
-          b.y > inv.y && b.y < inv.y + 20
+          b.x > inv.x &&
+          b.x < inv.x + 30 &&
+          b.y > inv.y &&
+          b.y < inv.y + 20
         ) {
           invaders.splice(j, 1);
           bullets.splice(i, 1);
@@ -1315,7 +1330,7 @@ function startInvaders() {
     });
 
     if (invaders.length === 0) {
-      return alert("🚀 You won!"), resetCanvas();
+      return (alert('🚀 You won!'), resetCanvas());
     }
 
     animationId = requestAnimationFrame(loop);
@@ -1325,14 +1340,7 @@ function startInvaders() {
 }
 // --- Ende des Space Invaders-Spiels ---
 
-
 // --- Ende des Arcade-Spiels ---
-
-
-
-
-
-
 
 // Start direkt beim Laden
 init();
