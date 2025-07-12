@@ -1,0 +1,34 @@
+{
+  "name": "minesweeper_ai",
+  "version": "1.0.0",
+  "description": "Erste Anwendung mit integrierter KI",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build",
+    "deploy": "gh-pages -d dist", 
+    "preview": "vite preview",
+    "format": "prettier --write .",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Maximilian2306/Minesweeper_AI.git"
+  },
+  "keywords": [],
+  "author": "Maximilian Hahn",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Maximilian2306/Minesweeper_AI/issues"
+  },
+  "homepage": "https://github.com/Maximilian2306/Minesweeper_AI#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.31.0",
+    "eslint": "^9.31.0",
+    "gh-pages": "^6.3.0",
+    "globals": "^16.3.0",
+    "prettier": "^3.6.2",
+    "vite": "^7.0.4"
+  }
+}
