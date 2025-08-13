@@ -1,4 +1,5 @@
-import { updateTimer } from '/src/js/utils/timer.js';
+// import { updateTimer } from '/src/js/utils/timer.js';
+import { updateTimer } from '../utils/timer.js';
 
 export class MinesweeperGame {
   constructor(size, mines) {

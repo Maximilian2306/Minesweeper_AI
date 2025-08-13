@@ -76,11 +76,17 @@ export function bindHeaderControls({ onRestart, onModeChange }) {
   });
 
   mineIconButton.addEventListener('click', () => {
+    // const mineIcons = [
+    //   '/src/assets/Pictures/Bomb1.jpeg',
+    //   '/src/assets/Pictures/Bomb.jpg',
+    //   '/src/assets/Pictures/Bomb2.jpg',
+    //   '/src/assets/Pictures/Bomb3.webp',
+    // ];
     const mineIcons = [
-      '/src/assets/Pictures/Bomb1.jpeg',
-      '/src/assets/Pictures/Bomb.jpg',
-      '/src/assets/Pictures/Bomb2.jpg',
-      '/src/assets/Pictures/Bomb3.webp',
+      './assets/Pictures/Bomb1.jpeg',
+      './assets/Pictures/Bomb.jpg',
+      './assets/Pictures/Bomb2.jpg',
+      './assets/Pictures/Bomb3.webp',
     ];
     currentMineIconIndex = (currentMineIconIndex + 1) % mineIcons.length;
 

@@ -1,5 +1,8 @@
-import { stopAI } from '/src/js/ai/AIMenu.js';
-import { formatTime } from '/src/js/utils/helpers.js';
+// import { stopAI } from '/src/js/ai/AIMenu.js';
+// import { formatTime } from '/src/js/utils/helpers.js';
+import { stopAI } from '../ai/AIMenu.js';
+import { formatTime } from '../utils/helpers.js';
+
 
 const leaderboardKey = 'minesweeper-leaderboard'; // Schlüssel für die Bestenliste im Local Storage
 const leaderboardList = document.getElementById('leaderboard-list'); // Bestenliste

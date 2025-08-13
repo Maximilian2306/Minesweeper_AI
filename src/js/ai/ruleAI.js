@@ -1,5 +1,7 @@
-import { getNeighbors } from '/src/js/utils/helpers.js';
-import { sleep } from '/src/js/utils/helpers.js';
+// import { getNeighbors } from '/src/js/utils/helpers.js';
+// import { sleep } from '/src/js/utils/helpers.js';
+// import { aiSpeed, incrementGameCount } from './AIMenu.js';
+import { getNeighbors, sleep } from '../utils/helpers.js';
 import { aiSpeed, incrementGameCount } from './AIMenu.js';
 
 // KI Buttons //

@@ -1,4 +1,6 @@
-import { sleep } from '/src/js/utils/helpers.js';
+// import { sleep } from '/src/js/utils/helpers.js';
+// import { aiSpeed, incrementGameCount } from './AIMenu.js';
+import { sleep } from '../utils/helpers.js';
 import { aiSpeed, incrementGameCount } from './AIMenu.js';
 
 // KI Buttons //

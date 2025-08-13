@@ -1,6 +1,6 @@
-import { PongGame } from '/src/js/arcade/pong.js';
-import { SnakeGame } from '/src/js/arcade/snake.js';
-import { InvadersGame } from '/src/js/arcade/invaders.js';
+import { PongGame } from './pong.js';
+import { SnakeGame } from './snake.js';
+import { InvadersGame } from './invaders.js';
 
 export class ArcadeManager {
     constructor() {
