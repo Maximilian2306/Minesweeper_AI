@@ -4,8 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minesweeper-AI</title>
-    <script type="module" crossorigin src="/Minesweeper_AI/assets/index-DLe24qPD.js"></script>
-    <link rel="stylesheet" crossorigin href="/Minesweeper_AI/assets/index-DKrea4-q.css">
+    <!-- <link rel="stylesheet" href="src/css/style.css" /> -->
+    <script type="module" crossorigin src="/Minesweeper_AI/assets/index-Igk4SFVE.js"></script>
+    <link rel="stylesheet" crossorigin href="/Minesweeper_AI/assets/index-BNugwcP2.css">
   </head>
   <body>
 
@@ -18,12 +19,12 @@
         Einstellungen
       </button>
       <button id="about-btn" class="nav-btn"> <!-- data-i18n="AboutMe" -->
-        <img src="/Minesweeper_AI/assets/aboutIcon2-CqZ2J31c.png" alt="Einstellungen" class="icon"></button> <!-- Über mich</button> -->
+        <img src="./assets/Pictures/aboutIcon2.png" alt="Einstellungen" class="icon"></button> <!-- Über mich</button> -->
     </div>
 
     <!-- Main Game Container -->
     <div class="game-container">
-      <img src="/Minesweeper_AI/assets/Minesweeper_flag-i5K1_42x.png" alt="Minesweeper Logo" class="logo"/>
+      <img src="./assets/Pictures/Minesweeper_flag.png" alt="Minesweeper Logo" class="logo"/>
       <h1>Minesweeper-AI</h1>
       <button id="arcade-btn" class="nav-btn" data-i18n="startArcade">🎮 Arcade starten</button>
       <p data-i18n="Header">Minesweeper-Spiel mit KI-Unterstützung</p>
@@ -58,7 +59,8 @@
           <span id="timer" data-i18n="timer">00:00</span>
         </div>
         <button id="mineIconButton" class="mine-icon-button" title="Minen-Icon">
-          <img id="mineIconImg" src="/Minesweeper_AI/assets/Bomb1-DRh5_fmU.jpeg" alt="Minen Icon" >
+          <!-- <img id="mineIconImg" src="/src/assets/Pictures/Bomb1.jpeg" alt="Minen Icon" > -->
+          <img id="mineIconImg" src="./assets/Pictures/Bomb1.jpeg" alt="Minen Icon" >
         </button>
         <button id="restart-btn" class="restart-btn" data-i18n="newGame">🙂 Neues Spiel</button>
       </div>
@@ -175,6 +177,7 @@
       </div>
       <canvas id="pong-canvas" width="800" height="500" style="display: none"></canvas>
     </div>
-
+   
+    <!-- <script type="module" src="/src/js/core/main.js"></script> -->
   </body>
 </html>
