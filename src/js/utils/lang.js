@@ -1,12 +1,6 @@
 let translations = {};
 let currentLang = 'de';
 
-// export async function loadLanguage(lang) {
-//   const response = await fetch(`./src/i18n/${lang}.json`);
-//   translations = await response.json();
-//   currentLang = lang;
-//   updateTexts();
-// }
 export async function loadLanguage(lang) {
   const res = await fetch(`./i18n/${lang}.json`);
   if (!res.ok) {

@@ -33,18 +33,3 @@ export function getNeighbors(x, y, game) {
 }
 
 
-// Helper function to pick a random unrevealed cell
-// function pickRandomUnrevealed() {
-//   const list = [];
-//   for (let y = 0; y < boardSize; y++) {
-//     for (let x = 0; x < boardSize; x++) {
-//       const cell = board[y][x];
-//       if (!cell.revealed && !cell.flagged) {
-//         list.push({ x, y });
-//       }
-//     }
-//   }
-//   if (list.length === 0) return null;
-//   return list[Math.floor(Math.random() * list.length)];
-// }
-

@@ -1,3 +1,3 @@
 # Minesweeper_AI
 
-Erste Anwendung mit integrierter KI
+First project with integrated AI

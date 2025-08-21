@@ -1,6 +1,3 @@
-// import { getNeighbors } from '/src/js/utils/helpers.js';
-// import { sleep } from '/src/js/utils/helpers.js';
-// import { aiSpeed, incrementGameCount } from './AIMenu.js';
 import { getNeighbors, sleep } from '../utils/helpers.js';
 import { aiSpeed, incrementGameCount } from './AIMenu.js';
 
@@ -39,7 +36,7 @@ export class RuleBasedAI {
       if (this.game.gameOver) {
         incrementGameCount();
         this.game.init();
-        await sleep(0.1);
+        await sleep(0);
         continue;
       }
 

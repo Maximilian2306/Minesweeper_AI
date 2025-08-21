@@ -1,22 +1,3 @@
-// import { MinesweeperGame } from '/src/js/core/game.js';
-// import { BoardUI } from '/src/js/ui/boardUI.js';
-// import { bindHeaderControls } from '/src/js/ui/header.js';
-
-// import { bindKIButtons, stopAI } from '/src/js/ai/AIMenu.js';
-// import { startRandomAI } from '/src/js/ai/randomAI.js';
-// import { startRuleAI } from '/src/js/ai/ruleAI.js';
-// import { Leaderboard, bindLeaderboardButtons } from '/src/js/modals/leaderboard.js';
-
-// import { bindModals } from '/src/js/modals/modals.js';
-
-// import { loadLanguage } from '/src/js/utils/lang.js';
-
-// import { CrashSim } from '/src/js/utils/crashSim.js';
-
-// import { ArcadeManager } from '/src/js/arcade/arcadeManager.js';
-
-// import { refreshUI } from '/src/js/utils/refreshUI.js';
-
 import { MinesweeperGame } from './game.js';
 import { BoardUI } from '../ui/boardUI.js';
 import { bindHeaderControls } from '../ui/header.js';

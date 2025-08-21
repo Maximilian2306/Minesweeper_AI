@@ -1,4 +1,3 @@
-// import { openPopup } from '/src/js/utils/handlePopups.js';
 import { openPopup } from '../utils/handlePopups.js';
 
 

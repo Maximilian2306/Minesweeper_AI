@@ -1,3 +1,24 @@
+/* === Neuer Button Stil === */
+/* .nav-btn {
+  display: inline-block;
+  background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
+  color: var(--black);
+  padding: 15px 30px;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.nav-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+} */
+/* === Neuer Button Stil === */
+
+
 /* === Allgemeine Stile === */
 *,
 *::before,
@@ -5,17 +26,6 @@
   box-sizing: border-box;
 }
 
-/* === Grundlayout === */
-/* body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #222;
-  color: #eee;
-
-  display: block;
-  min-height: 100vh;
-} */
 :root {
     --primary-color: #8B4513;
     --secondary-color: #D2691E;
@@ -41,11 +51,11 @@
     --transparent: rgba(0, 0, 0, 0.5);
     --shadow-color: rgba(0, 0, 0, 0.3);
 
-    /* --mine-icon-url: url('../assets/Pictures/Bomb1.jpeg'); */
-    --mine-icon-url: url('./assets/Pictures/Bomb1.jpeg'); /* Angepasst für relative Pfade */
+    --mine-icon-url: url('../assets/Pictures/Bomb1.jpeg'); /* Angepasst für relative Pfade */
 }
 
 
+/* === Grundlayout === */
 body {
   margin: 0;
   padding: 0;
@@ -78,6 +88,7 @@ body.popup-open {
   padding: 1rem;
   /* box-sizing: border-box; */
 }
+
 
 /* === Navigation oben rechts === */
 .top-bar {
@@ -113,21 +124,8 @@ body.popup-open {
 }
 
 
-/* Spaßfunktion für crash */
+/* === Spaßfunktion für crash === */
 .warn-btn {
-  /* content: "Klick mich, wenn du dich traust! 😈";
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  z-index: 100;
-  background-color: purple;
-  color: white;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3); */
   position: fixed;
   top: 15px;
   left: 15px;
@@ -162,26 +160,6 @@ body.popup-open {
   z-index: 2000;
 }
 
-
-/* === Neuer Button Stil === */
-/* .nav-btn {
-  display: inline-block;
-  background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
-  color: var(--black);
-  padding: 15px 30px;
-  text-decoration: none;
-  border-radius: 50px;
-  font-weight: bold;
-  font-size: 1.1rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
-
-.nav-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-} */
-/* === Neuer Button Stil === */
 
 /* === Headerlayout === */
 .logo {
@@ -272,18 +250,14 @@ body.popup-open {
   box-shadow: 0 0 10px red;
 }
 
+
 /* === Spielfeld (Grid) === */
 .game-board {
   display: grid;
-
-  /* grid-template-columns: repeat(10, 30px);  */
-  /* Spaltenanzahl anpassbar (Normal:10) */
-  /* grid-template-rows: repeat(10, 30px);  */
-  /* Reihenanzahl anpassbar (Normal:10)*/
-
   gap: 2px;
   border: 3px solid #000000;
 }
+
 
 /* === Zellen === */
 .cell {
@@ -309,8 +283,6 @@ body.popup-open {
 }
 
 .cell.mine {
-  /* background-color: #fa1900; */
-  /* background-image: url('../assets/Pictures/Bomb1.jpeg'); */
   background-image: var(--mine-icon-url);
   background-size: cover; /* oder contain, je nach Bedarf */
   background-position: center;
@@ -318,8 +290,7 @@ body.popup-open {
 }
 
 .cell.flagged {
-  /* background-image: url('../assets/Pictures/CellRevFlag_v2.png'); */
-  background-image: url('./assets/Pictures/CellRevFlag_v2.png');
+  background-image: url('../assets/Pictures/CellRevFlag_v2.png');
   background-size: cover; /* oder contain, je nach Bedarf */
   background-position: center;
   background-repeat: no-repeat;
@@ -337,7 +308,7 @@ body.popup-open {
 
 /* === Minen Icon === */
 .mine-icon-button {
-  width: 32px;         /* gleiche Größe wie Spielfeldzellen oder nach Wunsch */
+  width: 32px;        
   height: 32px;
   padding: 0;
   border: 2.5px solid black;
@@ -353,7 +324,7 @@ body.popup-open {
   width: 100%;
   height: 100%;
   border-radius: 3px;
-  object-fit: cover;   /* füllt komplett aus */
+  object-fit: cover;   
 }
 
 
@@ -388,6 +359,7 @@ body.popup-open {
   justify-content: space-between;
 }
 
+
 /* === Popup === */
 .popup {
   position: fixed;
@@ -413,6 +385,7 @@ body.popup-open {
   text-align: center;
 }
 
+
 /* === Leaderboard Popup === */
 .leaderboard-btn {
   margin-top: 1rem;
@@ -434,6 +407,7 @@ body.popup-open {
     background-color 0.3s ease-in,
     box-shadow 0.3s ease-in;
 }
+
 
 /* === Start-Modus Button === */
 .mode-btn {
@@ -459,6 +433,7 @@ body.popup-open {
     box-shadow 0.2s ease-in;
 }
 
+
 /* === KI-Auswahl-Menü === */
 #kiMenu {
   background: #eee;
@@ -474,6 +449,7 @@ body.popup-open {
   background-color: #f0f0f0;
   cursor: pointer;
 }
+
 
 /* === MessageBox Lose === */
 .game-over {
@@ -511,6 +487,7 @@ body.popup-open {
     background-color 0.3s ease-in,
     box-shadow 0.3s ease-in;
 }
+
 
 /* === MessageBox Win === */
 .game-win {

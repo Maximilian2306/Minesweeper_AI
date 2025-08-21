@@ -9,7 +9,6 @@
     "build": "vite build",
     "deploy": "npm run build && gh-pages -d dist -b deploy-branch",
     "preview": "vite preview",
-    "format": "prettier --write .",
     "lint": "eslint ."
   },
   "repository": {

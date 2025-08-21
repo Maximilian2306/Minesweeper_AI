@@ -1,5 +1,3 @@
-// import { sleep } from '/src/js/utils/helpers.js';
-// import { aiSpeed, incrementGameCount } from './AIMenu.js';
 import { sleep } from '../utils/helpers.js';
 import { aiSpeed, incrementGameCount } from './AIMenu.js';
 
@@ -59,7 +57,7 @@ export class RandomAI {
       if (this.game.gameOver) {
         incrementGameCount();
         this.game.init();
-        await sleep(0.000001);
+        await sleep(0);
 
         // Create a new list after game reset
         unrevealedCells = [];
